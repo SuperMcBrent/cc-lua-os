@@ -24,38 +24,34 @@ local linesPerPage = 30
 
 local function SortTable(column, order)
     local sorted = {}
-    for k, v in pairs(lastMessage or {}) do
-        sorted[#sorted + 1] = { name = k, value = v, avg = lastAverages[k] or 0 }
-    end
-
-    local asc = (order == "asc")
-
-    if column == "name" then
-        table.sort(sorted, function(a, b)
-            local an, bn = a.name:lower(), b.name:lower()
-            if an == bn then return false end
-            return asc and (an < bn) or (an > bn)
-        end)
-    elseif column == "total" then
-        table.sort(sorted, function(a, b)
-            if a.value == b.value then
-                local an, bn = a.name:lower(), b.name:lower()
-                if an == bn then return false end
-                return an < bn
+    for k, v in pairs(lastMessage or {}) do table.insert(sorted, { name = k, value = v, avg = lastAverages[k] or 0 }) end
+    table.sort(sorted,
+        function(a, b)
+            if column == "name" then
+                if order == "asc" then
+                    return a.name:lower() < b.name:lower()
+                else
+                    return
+                        a.name:lower() > b.name:lower()
+                end
+            elseif column == "total" then
+                if order == "asc" then
+                    return a
+                        .value < b.value
+                else
+                    return a.value > b.value
+                end
+            elseif column == "avg" then
+                if order == "asc" then
+                    return
+                        a.avg < b.avg
+                else
+                    return a.avg > b.avg
+                end
+            else
+                return false
             end
-            return asc and (a.value < b.value) or (a.value > b.value)
         end)
-    elseif column == "avg" then
-        table.sort(sorted, function(a, b)
-            if a.avg == b.avg then
-                local an, bn = a.name:lower(), b.name:lower()
-                if an == bn then return false end
-                return an < bn
-            end
-            return asc and (a.avg < b.avg) or (a.avg > b.avg)
-        end)
-    end
-
     return sorted
 end
 

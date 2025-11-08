@@ -28,28 +28,14 @@ local function SortTable(column, order)
 
     table.sort(sorted, function(a, b)
         if column == "name" then
-            if order == "asc" then
-                return a.name:lower() < b.name:lower()
-            else
-                return a.name:lower() > b.name:lower()
-            end
+            return (order == "asc") and (a.name:lower() < b.name:lower()) or (a.name:lower() > b.name:lower())
         elseif column == "total" then
-            if order == "asc" then
-                return a.value < b.value
-            else
-                return a.value > b.value
-            end
+            return (order == "asc") and (a.value < b.value) or (a.value > b.value)
         elseif column == "avg" then
-            if order == "asc" then
-                return a.avg < b.avg
-            else
-                return a.avg > b.avg
-            end
-        else
-            return false
+            return (order == "asc") and (a.avg < b.avg) or (a.avg > b.avg)
         end
+        return false
     end)
-
     return sorted
 end
 
@@ -139,13 +125,13 @@ local function rootView(ctx)
                 view = rootViewName,
                 name = nextPageBtnId,
                 x = 2,
-                y = 16,
+                y = 20,
                 w = 9,
                 h = 3,
                 colorOn = colors.cyan,
                 state = true,
                 textOn = "-->",
-                textOff = "60",
+                textOff = "-->",
                 textX = 5,
                 textY = 17
             })
@@ -155,19 +141,20 @@ local function rootView(ctx)
                 view = rootViewName,
                 name = prevPageBtnId,
                 x = 2,
-                y = 20,
+                y = 24,
                 w = 9,
                 h = 3,
                 colorOn = colors.cyan,
                 state = true,
                 textOn = "<--",
-                textOff = "60",
+                textOff = "<--",
                 textX = 5,
                 textY = 21
             })
         end,
 
         draw = function(mon)
+            local W, H = ctx.os.size()
             local prepared = ctx.libs().tablebuilder.prepare(
                 lastMessage or {},
                 { lastAverages, {}, {} },
@@ -178,7 +165,6 @@ local function rootView(ctx)
                 state = snapshot.table == nil,
                 textOff = SnapshotCountdown()
             })
-
             ctx.libs().button.draw(testBtnId, mon)
 
             for key, id in pairs(sortButtons) do
@@ -186,6 +172,19 @@ local function rootView(ctx)
                 ctx.libs().button.update(id, { visible = visible })
                 ctx.libs().button.draw(id, mon)
             end
+
+            local sorted = SortTable(currentSortColumn, currentSortOrder)
+            local totalPages = math.max(1, math.ceil(#sorted / linesPerPage))
+            if currentPage > totalPages then currentPage = totalPages end
+
+            ctx.libs().button.update(nextPageBtnId, {
+                colorOn = (currentPage < totalPages) and colors.cyan or colors.gray,
+                state = currentPage < totalPages
+            })
+            ctx.libs().button.update(prevPageBtnId, {
+                colorOn = (currentPage > 1) and colors.cyan or colors.gray,
+                state = currentPage > 1
+            })
 
             ctx.libs().button.draw(nextPageBtnId, mon)
             ctx.libs().button.draw(prevPageBtnId, mon)
@@ -197,13 +196,10 @@ local function rootView(ctx)
             ctx.libs().draw.drawTitle(13, 6, ctx.libs().tablebuilder.getRow(prepared, "SPACER"), colors.white,
                 colors.black, mon)
 
-            local sorted = SortTable(currentSortColumn, currentSortOrder)
-            local totalPages = math.max(1, math.ceil(#sorted / linesPerPage))
-            if currentPage > totalPages then currentPage = totalPages end
             local startIndex = (currentPage - 1) * linesPerPage + 1
             local endIndex = math.min(startIndex + linesPerPage - 1, #sorted)
-
             local index = 0
+
             for i = startIndex, endIndex do
                 local entry = sorted[i]
                 if not entry then break end
@@ -218,6 +214,14 @@ local function rootView(ctx)
                 )
                 index = index + 1
             end
+
+            local totalEssences = 0
+            if lastMessage then
+                for _ in pairs(lastMessage) do
+                    totalEssences = totalEssences + 1
+                end
+            end
+            ctx.libs().draw.drawTitle(W - 10, 2, tostring(totalEssences), colors.white, colors.black, mon)
         end,
 
         touch = function(x, y)
@@ -228,9 +232,7 @@ local function rootView(ctx)
 
             for key, id in pairs(sortButtons) do
                 if ctx.libs().button.isWithinBoundingBox(x, y, id) then
-                    if key == "avg" and not HasAverages() then
-                        return
-                    end
+                    if key == "avg" and not HasAverages() then return end
                     if currentSortColumn == key then
                         local newOrder = (currentSortOrder == "asc") and "desc" or "asc"
                         SetSortMode(ctx, key, newOrder)

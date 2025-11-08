@@ -25,21 +25,40 @@ local linesPerPage = 30
 local function SortTable(column, order)
     local sorted = {}
     for k, v in pairs(lastMessage or {}) do
-        table.insert(sorted, { name = k, value = v, avg = lastAverages[k] or 0 })
+        sorted[#sorted + 1] = { name = k, value = v, avg = lastAverages[k] or 0 }
     end
 
-    table.sort(sorted, function(a, b)
-        if column == "name" then
-            return (order == "asc") and (a.name:lower() < b.name:lower()) or (a.name:lower() > b.name:lower())
-        elseif column == "total" then
-            return (order == "asc") and (a.value < b.value) or (a.value > b.value)
-        elseif column == "avg" then
-            return (order == "asc") and (a.avg < b.avg) or (a.avg > b.avg)
-        end
-        return false
-    end)
+    local asc = (order == "asc")
+
+    if column == "name" then
+        table.sort(sorted, function(a, b)
+            local an, bn = a.name:lower(), b.name:lower()
+            if an == bn then return false end
+            return asc and (an < bn) or (an > bn)
+        end)
+    elseif column == "total" then
+        table.sort(sorted, function(a, b)
+            if a.value == b.value then
+                local an, bn = a.name:lower(), b.name:lower()
+                if an == bn then return false end
+                return an < bn
+            end
+            return asc and (a.value < b.value) or (a.value > b.value)
+        end)
+    elseif column == "avg" then
+        table.sort(sorted, function(a, b)
+            if a.avg == b.avg then
+                local an, bn = a.name:lower(), b.name:lower()
+                if an == bn then return false end
+                return an < bn
+            end
+            return asc and (a.avg < b.avg) or (a.avg > b.avg)
+        end)
+    end
+
     return sorted
 end
+
 
 local function HasAverages()
     for _ in pairs(lastAverages or {}) do return true end
@@ -313,7 +332,7 @@ return {
             if view and view.init then view.init() end
         end
 
-        itemsInStorage = ctx.os.peripherals.me_bridge.getItems() or {}
+        itemsInStorage = ctx.os.peripherals().me_bridge.getItems() or {}
     end,
     destroy = function(ctx) ClearSnapshot() end,
     resume = function(ctx) active = true end,

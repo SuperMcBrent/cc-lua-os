@@ -12,6 +12,8 @@ local sortButtons = {
     avg = "sort_avg"
 }
 
+local itemsInStorage = {}
+
 local lastMessage = nil
 local snapshot = { table = nil, time = 0 }
 local lastAverages = {}
@@ -217,13 +219,13 @@ local function rootView(ctx)
                 index = index + 1
             end
 
-            local totalEssences = 0
+            local totalItems = 0
             if lastMessage then
-                for _ in pairs(lastMessage) do
-                    totalEssences = totalEssences + 1
+                for _ in pairs(itemsInStorage) do
+                    totalItems = totalItems + 1
                 end
             end
-            ctx.libs().draw.drawTitle(W - 10, 2, tostring(totalEssences), colors.white, colors.black, mon)
+            ctx.libs().draw.drawTitle(W - 10, 2, tostring(totalItems), colors.white, colors.black, mon)
         end,
 
         touch = function(x, y)
@@ -310,6 +312,8 @@ return {
             local view = v(ctx)
             if view and view.init then view.init() end
         end
+
+        itemsInStorage = ctx.os.peripherals.me_bridge.getItems() or {}
     end,
     destroy = function(ctx) ClearSnapshot() end,
     resume = function(ctx) active = true end,

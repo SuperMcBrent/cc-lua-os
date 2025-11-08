@@ -33,10 +33,17 @@ local ctx = {
         redraw = function() needRedraw = true end,
         size = function() return W, H end,
         transmit = function(message, protocol) rednetTransmit(message, protocol) end,
+        peripherals = function() return getCustomPeripherals() end
     },
     libs = function() return libs end,
     deviceName = DEVICE_NAME,
 }
+
+function getCustomPeripherals()
+    local mon2 = peripheral.wrap("monitor_1")
+    local me_bridge = peripheral.wrap("me_bridge_0")
+    return { monitor_2 = mon2, me_bridge = me_bridge }
+end
 
 local function setSize()
     W, H = mon.getSize()

@@ -4,7 +4,8 @@ local protocol = "essenceFarmLogs"
 local active = false
 
 local testBtnId = "test_essence_request"
-
+local nextPageBtnId = "next_page"
+local prevPageBtnId = "prev_page"
 local sortButtons = {
     name = "sort_name",
     total = "sort_total",
@@ -16,6 +17,8 @@ local snapshot = { table = nil, time = 0 }
 local lastAverages = {}
 
 local currentSortColumn, currentSortOrder = "total", "desc"
+local currentPage = 1
+local linesPerPage = 30
 
 local function SortTable(column, order)
     local sorted = {}
@@ -130,6 +133,38 @@ local function rootView(ctx)
             addSortButton(sortButtons.avg, "Avg", (colH + gapY) * 2)
 
             SetSortMode(ctx, currentSortColumn, currentSortOrder)
+
+            ctx.libs().button.create({
+                app = applicationName,
+                view = rootViewName,
+                name = nextPageBtnId,
+                x = 2,
+                y = 16,
+                w = 9,
+                h = 3,
+                colorOn = colors.cyan,
+                state = true,
+                textOn = "-->",
+                textOff = "60",
+                textX = 5,
+                textY = 17
+            })
+
+            ctx.libs().button.create({
+                app = applicationName,
+                view = rootViewName,
+                name = prevPageBtnId,
+                x = 2,
+                y = 20,
+                w = 9,
+                h = 3,
+                colorOn = colors.cyan,
+                state = true,
+                textOn = "<--",
+                textOff = "60",
+                textX = 5,
+                textY = 21
+            })
         end,
 
         draw = function(mon)
@@ -152,6 +187,9 @@ local function rootView(ctx)
                 ctx.libs().button.draw(id, mon)
             end
 
+            ctx.libs().button.draw(nextPageBtnId, mon)
+            ctx.libs().button.draw(prevPageBtnId, mon)
+
             if not lastMessage then return end
 
             ctx.libs().draw.drawTitle(13, 5, ctx.libs().tablebuilder.getRow(prepared, "HEADER"), colors.white,
@@ -159,9 +197,16 @@ local function rootView(ctx)
             ctx.libs().draw.drawTitle(13, 6, ctx.libs().tablebuilder.getRow(prepared, "SPACER"), colors.white,
                 colors.black, mon)
 
-            local linesPerPage, index = 30, 0
             local sorted = SortTable(currentSortColumn, currentSortOrder)
-            for _, entry in ipairs(sorted) do
+            local totalPages = math.max(1, math.ceil(#sorted / linesPerPage))
+            if currentPage > totalPages then currentPage = totalPages end
+            local startIndex = (currentPage - 1) * linesPerPage + 1
+            local endIndex = math.min(startIndex + linesPerPage - 1, #sorted)
+
+            local index = 0
+            for i = startIndex, endIndex do
+                local entry = sorted[i]
+                if not entry then break end
                 local key = entry.name
                 ctx.libs().draw.drawTitle(
                     13,
@@ -172,7 +217,6 @@ local function rootView(ctx)
                     mon
                 )
                 index = index + 1
-                if index >= linesPerPage then break end
             end
         end,
 
@@ -196,6 +240,18 @@ local function rootView(ctx)
                     return
                 end
             end
+
+            if ctx.libs().button.isWithinBoundingBox(x, y, nextPageBtnId) then
+                local sorted = SortTable(currentSortColumn, currentSortOrder)
+                local totalPages = math.max(1, math.ceil(#sorted / linesPerPage))
+                if currentPage < totalPages then currentPage = currentPage + 1 end
+                return
+            end
+
+            if ctx.libs().button.isWithinBoundingBox(x, y, prevPageBtnId) then
+                if currentPage > 1 then currentPage = currentPage - 1 end
+                return
+            end
         end
     }
 end
@@ -204,7 +260,8 @@ function SnapshotCountdown()
     if not snapshot.table then return nil end
     local elapsed = os.clock() - snapshot.time
     local remaining = 60 - elapsed
-    return remaining > 0 and remaining or 0
+    remaining = remaining > 0 and remaining or 0
+    return math.floor(remaining + 0.5)
 end
 
 function TakeSnapshot(currentTable)

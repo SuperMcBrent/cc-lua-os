@@ -129,11 +129,12 @@ local function rootView(ctx)
                 w = 9,
                 h = 3,
                 colorOn = colors.cyan,
+                colorOff = colors.gray,
                 state = true,
                 textOn = "-->",
                 textOff = "-->",
                 textX = 5,
-                textY = 17
+                textY = 21
             })
 
             ctx.libs().button.create({
@@ -145,11 +146,12 @@ local function rootView(ctx)
                 w = 9,
                 h = 3,
                 colorOn = colors.cyan,
+                colorOff = colors.gray,
                 state = true,
                 textOn = "<--",
                 textOff = "<--",
                 textX = 5,
-                textY = 21
+                textY = 25
             })
         end,
 

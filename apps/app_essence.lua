@@ -33,7 +33,8 @@ local function RefreshItemsInStorage(ctx)
     local newStorageCounts = {}
     for _, item in pairs(items) do
         if item.displayName then
-            newStorageCounts[item.displayName] = item.count or 0
+            local name = item.displayName:gsub(" Essence$", "")
+            newStorageCounts[name] = item.count or 0
         end
     end
     itemsInStorage = newStorageCounts

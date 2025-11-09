@@ -13,7 +13,6 @@ local sortButtons = {
 }
 
 local itemsInStorage = {}
-
 local lastMessage = nil
 local snapshot = { table = nil, time = 0 }
 local lastAverages = {}
@@ -22,39 +21,41 @@ local currentSortColumn, currentSortOrder = "total", "desc"
 local currentPage = 1
 local linesPerPage = 30
 
-local function SortTable(column, order)
-    local sorted = {}
-    for k, v in pairs(lastMessage or {}) do table.insert(sorted, { name = k, value = v, avg = lastAverages[k] or 0 }) end
-    table.sort(sorted,
-        function(a, b)
-            if column == "name" then
-                if order == "asc" then
-                    return a.name:lower() < b.name:lower()
-                else
-                    return
-                        a.name:lower() > b.name:lower()
-                end
-            elseif column == "total" then
-                if order == "asc" then
-                    return a
-                        .value < b.value
-                else
-                    return a.value > b.value
-                end
-            elseif column == "avg" then
-                if order == "asc" then
-                    return
-                        a.avg < b.avg
-                else
-                    return a.avg > b.avg
-                end
-            else
-                return false
-            end
-        end)
-    return sorted
+local STORAGE_REFRESH_INTERVAL = 5 --s
+local TRANSMIT_INTERVAL = 2        --s
+local storageRefreshTimer = 0
+local transmitTimer = 0
+
+local function RefreshItemsInStorage(ctx)
+    local me = ctx.os.peripherals().me_bridge
+    if not (me and me.getItems) then return end
+    local items = me.getItems() or {}
+    local newStorageCounts = {}
+    for _, item in pairs(items) do
+        if item.displayName then
+            newStorageCounts[item.displayName] = item.count or 0
+        end
+    end
+    itemsInStorage = newStorageCounts
 end
 
+local function SortTable(column, order)
+    local sorted = {}
+    for k, v in pairs(lastMessage or {}) do
+        table.insert(sorted, { name = k, value = v, avg = lastAverages[k] or 0 })
+    end
+    table.sort(sorted, function(a, b)
+        if column == "name" then
+            return (order == "asc") and (a.name:lower() < b.name:lower()) or (a.name:lower() > b.name:lower())
+        elseif column == "total" then
+            return (order == "asc") and (a.value < b.value) or (a.value > b.value)
+        elseif column == "avg" then
+            return (order == "asc") and (a.avg < b.avg) or (a.avg > b.avg)
+        end
+        return false
+    end)
+    return sorted
+end
 
 local function HasAverages()
     for _ in pairs(lastAverages or {}) do return true end
@@ -174,9 +175,10 @@ local function rootView(ctx)
 
         draw = function(mon)
             local W, H = ctx.os.size()
+
             local prepared = ctx.libs().tablebuilder.prepare(
                 lastMessage or {},
-                { lastAverages, {}, {} },
+                { lastAverages, itemsInStorage, {} },
                 { "Name", "Total", "Avg/min" }
             )
 
@@ -235,11 +237,7 @@ local function rootView(ctx)
             end
 
             local totalItems = 0
-            if lastMessage then
-                for _ in pairs(itemsInStorage) do
-                    totalItems = totalItems + 1
-                end
-            end
+            for _ in pairs(itemsInStorage) do totalItems = totalItems + 1 end
             ctx.libs().draw.drawTitle(W - 10, 2, tostring(totalItems), colors.white, colors.black, mon)
         end,
 
@@ -327,8 +325,7 @@ return {
             local view = v(ctx)
             if view and view.init then view.init() end
         end
-
-        itemsInStorage = ctx.os.peripherals().me_bridge.getItems() or {}
+        RefreshItemsInStorage(ctx)
     end,
     destroy = function(ctx) ClearSnapshot() end,
     resume = function(ctx) active = true end,
@@ -336,13 +333,29 @@ return {
         active = false
         ClearSnapshot()
     end,
+
     update = function(ctx, dt)
-        if active then ctx.os.transmit("provideEssenceCount", protocol) end
+        if not active then return end
+
+        storageRefreshTimer = storageRefreshTimer + dt
+        transmitTimer = transmitTimer + dt
+
+        if storageRefreshTimer >= STORAGE_REFRESH_INTERVAL then
+            storageRefreshTimer = 0
+            RefreshItemsInStorage(ctx)
+        end
+
+        if transmitTimer >= TRANSMIT_INTERVAL then
+            transmitTimer = 0
+            ctx.os.transmit("provideEssenceCount", protocol)
+        end
     end,
+
     draw = function(ctx, mon, viewId)
         local v = views[viewId]
         if v and v(ctx).draw then v(ctx).draw(mon) end
     end,
+
     touch = function(ctx, x, y, viewId)
         local v = views[viewId]
         if v and v(ctx).touch then v(ctx).touch(x, y) end

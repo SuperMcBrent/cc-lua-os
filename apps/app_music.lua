@@ -1,98 +1,92 @@
-local NOTES = {
-    "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F",
-    "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#"
+local keys = {
+    -- left unplayable padding
+    { pitch = -1, x = 3,  black = false, playable = false },
+
+    -- playable range 0–24
+    { pitch = 0,  x = 7,  black = false, playable = true }, -- F#
+    { pitch = 1,  x = 9,  black = true,  playable = true }, -- G
+    { pitch = 2,  x = 11, black = false, playable = true }, -- G#
+    { pitch = 3,  x = 13, black = true,  playable = true }, -- A
+    { pitch = 4,  x = 15, black = false, playable = true }, -- A#
+    { pitch = 5,  x = 17, black = true,  playable = true }, -- B
+    { pitch = 6,  x = 19, black = false, playable = true }, -- C
+    { pitch = 7,  x = 21, black = true,  playable = true }, -- C#
+    { pitch = 8,  x = 23, black = false, playable = true }, -- D
+    { pitch = 9,  x = 25, black = true,  playable = true }, -- D#
+    { pitch = 10, x = 27, black = false, playable = true }, -- E
+    { pitch = 11, x = 29, black = false, playable = true }, -- F
+    { pitch = 12, x = 31, black = true,  playable = true }, -- F#
+    { pitch = 13, x = 33, black = false, playable = true }, -- G
+    { pitch = 14, x = 35, black = true,  playable = true }, -- G#
+    { pitch = 15, x = 37, black = false, playable = true }, -- A
+    { pitch = 16, x = 39, black = true,  playable = true }, -- A#
+    { pitch = 17, x = 41, black = false, playable = true }, -- B
+    { pitch = 18, x = 43, black = false, playable = true }, -- C
+    { pitch = 19, x = 45, black = true,  playable = true }, -- C#
+    { pitch = 20, x = 47, black = false, playable = true }, -- D
+    { pitch = 21, x = 49, black = true,  playable = true }, -- D#
+    { pitch = 22, x = 51, black = false, playable = true }, -- E
+    { pitch = 23, x = 53, black = false, playable = true }, -- F
+    { pitch = 24, x = 55, black = true,  playable = true }, -- F#
+
+    -- right unplayable padding
+    { pitch = 25, x = 57, black = false, playable = false }
 }
 
-local WHITE_W, WHITE_H = 3, 6
-local BLACK_W, BLACK_H = 4, 3
-local SPACING = 2
-local START_X, START_Y = 3, 4
-
-local function isSharp(note) return string.find(note, "#") end
+local WHITE_W, WHITE_H = 3, 5
+local BLACK_W, BLACK_H = 3, 2
+local START_Y = 4
 
 local function mainView(ctx)
     return {
         init = function()
             local app, view = "music", "root"
-            local x, y = START_X, START_Y
-            local whiteKeyPositions = {}
 
-            for i, note in ipairs(NOTES) do
-                if not isSharp(note) then
-                    local id = "key_" .. i .. "_" .. note
-                    ctx.libs().button.create({
-                        app = app,
-                        view = view,
-                        name = id,
-                        x = x,
-                        y = y,
-                        w = WHITE_W,
-                        h = WHITE_H,
-                        colorOn = colors.cyan,
-                        colorOff = colors.white,
-                        state = false,
-                        textOn = note,
-                        textX = x + math.floor(WHITE_W / 2),
-                        textY = y + math.floor(WHITE_H / 2)
-                    })
-                    whiteKeyPositions[#whiteKeyPositions + 1] = { note = note, x = x }
-                    x = x + WHITE_W + SPACING
-                end
-            end
+            for _, k in ipairs(keys) do
+                local w = k.black and BLACK_W or WHITE_W
+                local h = k.black and BLACK_H or WHITE_H
+                local color =
+                    (not k.playable and colors.lightGray)
+                    or (k.black and colors.gray)
+                    or colors.white
 
-            for i, note in ipairs(NOTES) do
-                if isSharp(note) then
-                    local prevWhiteIndex = nil
-                    for wi, w in ipairs(whiteKeyPositions) do
-                        if NOTES[i - 1] == w.note then
-                            prevWhiteIndex = wi
-                            break
-                        end
-                    end
-                    if prevWhiteIndex then
-                        local baseX = whiteKeyPositions[prevWhiteIndex].x
-                        local x = baseX + math.floor((WHITE_W + SPACING) / 2)
-                        local id = "key_" .. i .. "_" .. note
-                        ctx.libs().button.create({
-                            app = app,
-                            view = view,
-                            name = id,
-                            x = x,
-                            y = y,
-                            w = BLACK_W,
-                            h = BLACK_H,
-                            colorOn = colors.cyan,
-                            colorOff = colors.gray,
-                            state = false,
-                            textOn = note,
-                            textX = x + math.floor(BLACK_W / 2),
-                            textY = y + 1
-                        })
-                    end
-                end
+                ctx.libs().button.create({
+                    app = app,
+                    view = view,
+                    name = "key_" .. k.pitch,
+                    x = k.x,
+                    y = START_Y,
+                    w = w,
+                    h = h,
+                    colorOn = color,
+                    colorOff = color,
+                    state = false,
+                    textOn = tostring(k.pitch),
+                    textX = k.x + math.floor(w / 2),
+                    textY = START_Y + math.floor(h / 2)
+                })
             end
         end,
-
         draw = function(mon)
-            for i, note in ipairs(NOTES) do
-                if not isSharp(note) then
-                    ctx.libs().button.draw("key_" .. i .. "_" .. note, mon)
-                end
+            for _, k in ipairs(keys) do
+                if not k.black then ctx.libs().button.draw("key_" .. k.pitch, mon) end
             end
-            for i, note in ipairs(NOTES) do
-                if isSharp(note) then
-                    ctx.libs().button.draw("key_" .. i .. "_" .. note, mon)
-                end
+            for _, k in ipairs(keys) do
+                if k.black then ctx.libs().button.draw("key_" .. k.pitch, mon) end
             end
         end,
-
         touch = function(x, y)
-            for i, note in ipairs(NOTES) do
-                local id = "key_" .. i .. "_" .. note
-                if ctx.libs().button.isWithinBoundingBox(x, y, id) then
-                    ctx.libs().button.update(id, { state = true })
+            for _, k in ipairs(keys) do
+                if k.black and ctx.libs().button.isWithinBoundingBox(x, y, "key_" .. k.pitch) and k.playable then
+                    goto blackWasHit
                 end
             end
+            for _, k in ipairs(keys) do
+                if not k.black and ctx.libs().button.isWithinBoundingBox(x, y, "key_" .. k.pitch) and k.playable then
+                    goto blackWasHit
+                end
+            end
+            ::blackWasHit::
         end
     }
 end
@@ -107,7 +101,7 @@ return {
     receive = function(ctx, sender, message) end,
 
     create = function(ctx)
-        for k, v in pairs(views) do
+        for _, v in pairs(views) do
             local view = v(ctx)
             if view and view.init then view.init() end
         end

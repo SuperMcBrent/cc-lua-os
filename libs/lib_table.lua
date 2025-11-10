@@ -16,7 +16,7 @@ local function prepare(mainData, extraLists, headers)
     end
 
     for k, v in pairs(mainData) do
-        local keyStr = k:gsub("Essence", "")
+        local keyStr = k:gsub(" Essence", "")
         if #keyStr > maxKeyLen then maxKeyLen = #keyStr end
         local valStr = tostring(v or "-")
         if #valStr > maxValLen then maxValLen = #valStr end
@@ -72,7 +72,7 @@ local function prepare(mainData, extraLists, headers)
     prepared["SPACER"] = spacerLine
 
     for k, v in pairs(mainData) do
-        local keyStr = k:gsub("Essence", "")
+        local keyStr = k:gsub(" Essence", "")
         if #keyStr > MAX_KEY_LEN then keyStr = keyStr:sub(1, MAX_KEY_LEN - 3) .. "..." end
         keyStr = keyStr .. string.rep(" ", maxKeyLen - #keyStr)
 

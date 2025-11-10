@@ -46,9 +46,9 @@ local function mainView(ctx)
                 local w = k.black and BLACK_W or WHITE_W
                 local h = k.black and BLACK_H or WHITE_H
                 local color =
-                    (not k.playable and colors.lightGray)
+                    (not k.playable and colors.gray)
                     or (k.black and colors.gray)
-                    or colors.white
+                    or colors.lightGray
 
                 ctx.libs().button.create({
                     app = app,

@@ -9,6 +9,7 @@ local BLACK_KEYS = {
 
 local WHITE_W, WHITE_H = 3, 6
 local BLACK_W, BLACK_H = 3, 3
+local SPACING = 1
 local START_X, START_Y = 3, 4
 
 local function mainView(ctx)
@@ -30,14 +31,14 @@ local function mainView(ctx)
                     y = y,
                     w = WHITE_W,
                     h = WHITE_H,
-                    colorOn = colors.lightGray,
-                    colorOff = colors.cyan,
+                    colorOn = colors.white,
+                    colorOff = colors.white,
                     state = false,
                     textOn = note,
-                    textX = x + 1,
+                    textX = x + math.floor(WHITE_W / 2),
                     textY = y + math.floor(WHITE_H / 2)
                 })
-                x = x + WHITE_W
+                x = x + WHITE_W + SPACING
             end
 
             -- Create black keys
@@ -46,7 +47,8 @@ local function mainView(ctx)
                 local pos = b.pos
                 local id = "key_" .. note
 
-                local x = START_X + (pos - 1) * WHITE_W + math.floor(WHITE_W / 2)
+                local baseX = START_X + (pos - 1) * (WHITE_W + SPACING)
+                local x = baseX + math.floor(WHITE_W / 2)
                 local y = START_Y
 
                 ctx.libs().button.create({
@@ -58,16 +60,18 @@ local function mainView(ctx)
                     w = BLACK_W,
                     h = BLACK_H,
                     colorOn = colors.gray,
-                    colorOff = colors.cyan,
+                    colorOff = colors.gray,
                     state = false,
                     textOn = note,
-                    textX = x + 1,
+                    textX = x + math.floor(BLACK_W / 2),
                     textY = y + 1
                 })
             end
         end,
 
         draw = function(mon)
+            local app = "music"
+            local view = "root"
             for _, note in ipairs(WHITE_KEYS) do
                 ctx.libs().button.draw("key_" .. note, mon)
             end
@@ -83,10 +87,10 @@ local function mainView(ctx)
             for _, note in ipairs(WHITE_KEYS) do
                 local id = "key_" .. note
                 if ctx.libs().button.isWithinBoundingBox(x, y, id) then
-                    ctx.libs().button.update(id, { state = true })
+                    ctx.libs().button.update(id, { colorOn = colors.lightGray })
                     ctx.libs().button.draw(id, mon)
                     sleep(0.1)
-                    ctx.libs().button.update(id, { state = false })
+                    ctx.libs().button.update(id, { colorOn = colors.white })
                     ctx.libs().button.draw(id, mon)
                     return
                 end
@@ -96,10 +100,10 @@ local function mainView(ctx)
             for _, b in ipairs(BLACK_KEYS) do
                 local id = "key_" .. b.note
                 if ctx.libs().button.isWithinBoundingBox(x, y, id) then
-                    ctx.libs().button.update(id, { state = true })
+                    ctx.libs().button.update(id, { colorOn = colors.darkGray })
                     ctx.libs().button.draw(id, mon)
                     sleep(0.1)
-                    ctx.libs().button.update(id, { state = false })
+                    ctx.libs().button.update(id, { colorOn = colors.gray })
                     ctx.libs().button.draw(id, mon)
                     return
                 end

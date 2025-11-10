@@ -10,7 +10,8 @@ return {
         app_settings = { version = "1.0" },
         app_inventory = { version = "1.0", _enabled = false },
         app_energyStorage = { version = "1.0" },
-        app_essence = { version = "1.0.4.magik" },
+        app_essence = { version = "1.0" },
+        app_music = { version = "1.0" },
     },
     main = { version = "1.0" },
 }

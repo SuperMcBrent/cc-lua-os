@@ -30,8 +30,8 @@ local function mainView(ctx)
                     y = y,
                     w = WHITE_W,
                     h = WHITE_H,
-                    colorOn = colors.white,
-                    colorOff = colors.white,
+                    colorOn = colors.lightGray,
+                    colorOff = colors.cyan,
                     state = false,
                     textOn = note,
                     textX = x + 1,
@@ -58,7 +58,7 @@ local function mainView(ctx)
                     w = BLACK_W,
                     h = BLACK_H,
                     colorOn = colors.gray,
-                    colorOff = colors.gray,
+                    colorOff = colors.cyan,
                     state = false,
                     textOn = note,
                     textX = x + 1,
@@ -68,8 +68,6 @@ local function mainView(ctx)
         end,
 
         draw = function(mon)
-            local app = "music"
-            local view = "root"
             for _, note in ipairs(WHITE_KEYS) do
                 ctx.libs().button.draw("key_" .. note, mon)
             end
@@ -85,10 +83,10 @@ local function mainView(ctx)
             for _, note in ipairs(WHITE_KEYS) do
                 local id = "key_" .. note
                 if ctx.libs().button.isWithinBoundingBox(x, y, id) then
-                    ctx.libs().button.update(id, { colorOn = colors.lightGray })
+                    ctx.libs().button.update(id, { state = true })
                     ctx.libs().button.draw(id, mon)
                     sleep(0.1)
-                    ctx.libs().button.update(id, { colorOn = colors.white })
+                    ctx.libs().button.update(id, { state = false })
                     ctx.libs().button.draw(id, mon)
                     return
                 end
@@ -98,10 +96,10 @@ local function mainView(ctx)
             for _, b in ipairs(BLACK_KEYS) do
                 local id = "key_" .. b.note
                 if ctx.libs().button.isWithinBoundingBox(x, y, id) then
-                    ctx.libs().button.update(id, { colorOn = colors.darkGray })
+                    ctx.libs().button.update(id, { state = true })
                     ctx.libs().button.draw(id, mon)
                     sleep(0.1)
-                    ctx.libs().button.update(id, { colorOn = colors.gray })
+                    ctx.libs().button.update(id, { state = false })
                     ctx.libs().button.draw(id, mon)
                     return
                 end

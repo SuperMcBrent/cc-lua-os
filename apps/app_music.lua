@@ -76,10 +76,26 @@ local function mainView(ctx)
                     textY = textY
                 })
             end
+
+            ctx.libs().button.create({
+                app = app,
+                view = view,
+                name = "instrumentsSelectionBtn",
+                x = 68,
+                y = 4,
+                w = 8,
+                h = 3,
+                colorOn = colors.cyan,
+                textOn = "Sounds",
+                textX = 69,
+                textY = 5
+            })
+
+            ctx.libs().button.quick(app, view, "instrumentsSelectionBtn", 68, 4, text, colorOn)
         end,
         draw = function(mon)
             --ctx.libs().draw.drawLine(0, 3, 97, 38, colors.gray, mon)
-            ctx.libs().draw.drawLine(2, 4, 65, 32, colors.gray, mon)
+            ctx.libs().draw.drawLine(2, 4, 65, 31, colors.gray, mon)
 
             for _, k in ipairs(keys) do
                 if not k.black then ctx.libs().button.draw("key_" .. k.pitch, mon) end
@@ -88,7 +104,7 @@ local function mainView(ctx)
                 if k.black then ctx.libs().button.draw("key_" .. k.pitch, mon) end
             end
 
-            for i = 0, 9 do
+            for i = 0, 10 do
                 local color = (i % 2 == 0) and colors.lightGray or colors.white
                 ctx.libs().draw.drawLine(3, 12 + i * 2, 63, 2, color, mon)
             end

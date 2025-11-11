@@ -385,13 +385,15 @@ local function mainView(ctx)
 
             for _, k in ipairs(keys) do
                 local isInChord = false
+
                 for _, note in ipairs(currentChord) do
                     if note.pitch == k.pitch then
                         isInChord = true
                         break
                     end
                 end
-                ctx.libs().button.update("key_" .. k.pitch, { state = isInChord })
+
+                ctx.libs().button.update("key_" .. k.pitch, { state = not isInChord })
             end
 
             ----------------------

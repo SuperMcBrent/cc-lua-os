@@ -102,7 +102,7 @@ local function mainView(ctx)
                 colorOn = colors.cyan,
                 textOn = "Nothin",
                 textX = 70,
-                textY = 5
+                textY = 9
             })
 
             ctx.libs().button.create({
@@ -116,7 +116,7 @@ local function mainView(ctx)
                 colorOn = colors.cyan,
                 textOn = "Nothin",
                 textX = 70,
-                textY = 5
+                textY = 13
             })
 
             ctx.libs().button.create({
@@ -130,7 +130,7 @@ local function mainView(ctx)
                 colorOn = colors.cyan,
                 textOn = "Nothin",
                 textX = 70,
-                textY = 5
+                textY = 17
             })
 
             ctx.libs().button.create({
@@ -144,7 +144,7 @@ local function mainView(ctx)
                 colorOn = colors.cyan,
                 textOn = "Nothin",
                 textX = 70,
-                textY = 5
+                textY = 21
             })
 
             ctx.libs().button.create({
@@ -158,7 +158,7 @@ local function mainView(ctx)
                 colorOn = colors.cyan,
                 textOn = "Nothin",
                 textX = 70,
-                textY = 5
+                textY = 25
             })
 
             ctx.libs().button.create({
@@ -172,7 +172,7 @@ local function mainView(ctx)
                 colorOn = colors.cyan,
                 textOn = "Nothin",
                 textX = 70,
-                textY = 5
+                textY = 29
             })
 
             ctx.libs().button.create({
@@ -186,7 +186,7 @@ local function mainView(ctx)
                 colorOn = colors.cyan,
                 textOn = "Nothin",
                 textX = 70,
-                textY = 5
+                textY = 33
             })
         end,
         draw = function(mon)
@@ -203,7 +203,9 @@ local function mainView(ctx)
             for i = 0, 10 do
                 local y = 12 + i * 2
                 local color = (i % 2 == 0) and colors.lightGray or colors.white
-                ctx.libs().draw.DrawTitle(1, y, tostring(i), colors.black, color, mon)
+                local label = string.format("%03d", i)
+
+                ctx.libs().draw.drawTitle(3, y, label, colors.black, color, mon)
                 ctx.libs().draw.drawLine(3, y, 63, 2, color, mon)
             end
 

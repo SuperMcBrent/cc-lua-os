@@ -304,10 +304,9 @@ local function mainView(ctx)
                 if k.black then ctx.libs().button.draw("key_" .. k.pitch, mon) end
             end
 
-            -- write current active at y 12
-
-            for i = 1, 9 do
-                local y = 15 + i * 2
+            for i = 0, 9 do
+                local offset = (i == 0) and 0 or 1
+                local y = 12 + i * 2 + offset
 
                 local color
                 if i < 2 then

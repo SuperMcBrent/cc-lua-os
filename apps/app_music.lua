@@ -48,6 +48,9 @@ local currentInstrument = "pling"
 local currentChord = {}
 
 local speaker0 = peripheral.wrap("speaker_0")
+local speaker1 = peripheral.wrap("speaker_1")
+local speaker2 = peripheral.wrap("speaker_2")
+local speakers = { speaker0, speaker1, speaker2 }
 
 local WHITE_W, WHITE_H = 3, 6
 local BLACK_W, BLACK_H = 3, 3
@@ -347,7 +350,7 @@ local function mainView(ctx)
             for _, k in ipairs(keys) do
                 if k.black and ctx.libs().button.isWithinBoundingBox(x, y, "key_" .. k.pitch) and k.playable then
                     local found = false
-                    speaker0.playNote(currentInstrument, 3, k.pitch)
+                    PlayChord({ { pitch = k.pitch, instrument = currentInstrument } })
 
                     for i, note in ipairs(currentChord) do
                         if note.pitch == k.pitch then
@@ -371,7 +374,7 @@ local function mainView(ctx)
             for _, k in ipairs(keys) do
                 if not k.black and ctx.libs().button.isWithinBoundingBox(x, y, "key_" .. k.pitch) and k.playable then
                     local found = false
-                    speaker0.playNote(currentInstrument, 3, k.pitch)
+                    PlayChord({ { pitch = k.pitch, instrument = currentInstrument } })
 
                     for i, note in ipairs(currentChord) do
                         if note.pitch == k.pitch then
@@ -415,8 +418,28 @@ local function mainView(ctx)
                     textOn = "Spd: " .. string.format("%.1f", newTempo)
                 })
             end
+            if ctx.libs().button.isWithinBoundingBox(x, y, "songTestChordBtn") then
+                PlayChord(currentChord)
+            end
         end
     }
+end
+
+function PlayChord(notes)
+    if type(notes) ~= "table" or #notes == 0 then return end
+    if not speakers or #speakers == 0 then return end
+
+    for i, note in ipairs(notes) do
+        local speaker = speakers[i]
+        if not speaker then break end
+
+        local inst = note.instrument or currentInstrument
+        local pitch = note.pitch
+
+        if pitch then
+            speaker.playNote(inst, 3, pitch)
+        end
+    end
 end
 
 function SwitchTempo()

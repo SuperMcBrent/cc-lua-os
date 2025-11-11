@@ -1,37 +1,36 @@
 local keys = {
-    -- left unplayable padding
-    { pitch = -1, x = 3,  black = false, playable = false },
+    { pitch = -1, x = 2,  black = false, playable = false },
 
     -- playable range 0–24 (F# .. F#)
-    { pitch = 0,  x = 5,  black = true,  playable = true }, -- F#
-    { pitch = 1,  x = 7,  black = false, playable = true }, -- G
-    { pitch = 2,  x = 9,  black = true,  playable = true }, -- G#
-    { pitch = 3,  x = 11, black = false, playable = true }, -- A
-    { pitch = 4,  x = 13, black = true,  playable = true }, -- A#
-    { pitch = 5,  x = 15, black = false, playable = true }, -- B
-    { pitch = 6,  x = 19, black = false, playable = true }, -- C
-    { pitch = 7,  x = 21, black = true,  playable = true }, -- C#
-    { pitch = 8,  x = 23, black = false, playable = true }, -- D
-    { pitch = 9,  x = 25, black = true,  playable = true }, -- D#
-    { pitch = 10, x = 27, black = false, playable = true }, -- E
-    { pitch = 11, x = 31, black = false, playable = true }, -- F
-    { pitch = 12, x = 33, black = true,  playable = true }, -- F#
-    { pitch = 13, x = 35, black = false, playable = true }, -- G
-    { pitch = 14, x = 37, black = true,  playable = true }, -- G#
-    { pitch = 15, x = 39, black = false, playable = true }, -- A
-    { pitch = 16, x = 41, black = true,  playable = true }, -- A#
-    { pitch = 17, x = 43, black = false, playable = true }, -- B
-    { pitch = 18, x = 47, black = false, playable = true }, -- C
-    { pitch = 19, x = 49, black = true,  playable = true }, -- C#
-    { pitch = 20, x = 51, black = false, playable = true }, -- D
-    { pitch = 21, x = 53, black = true,  playable = true }, -- D#
-    { pitch = 22, x = 55, black = false, playable = true }, -- E
-    { pitch = 23, x = 59, black = false, playable = true }, -- F
-    { pitch = 24, x = 61, black = true,  playable = true }, -- F#
+    { pitch = 0,  x = 4,  black = true,  playable = true }, -- F#
+    { pitch = 1,  x = 6,  black = false, playable = true }, -- G
+    { pitch = 2,  x = 8,  black = true,  playable = true }, -- G#
+    { pitch = 3,  x = 10, black = false, playable = true }, -- A
+    { pitch = 4,  x = 12, black = true,  playable = true }, -- A#
+    { pitch = 5,  x = 14, black = false, playable = true }, -- B
+    { pitch = 6,  x = 18, black = false, playable = true }, -- C
+    { pitch = 7,  x = 20, black = true,  playable = true }, -- C#
+    { pitch = 8,  x = 22, black = false, playable = true }, -- D
+    { pitch = 9,  x = 24, black = true,  playable = true }, -- D#
+    { pitch = 10, x = 26, black = false, playable = true }, -- E
+    { pitch = 11, x = 30, black = false, playable = true }, -- F
+    { pitch = 12, x = 32, black = true,  playable = true }, -- F#
+    { pitch = 13, x = 34, black = false, playable = true }, -- G
+    { pitch = 14, x = 36, black = true,  playable = true }, -- G#
+    { pitch = 15, x = 38, black = false, playable = true }, -- A
+    { pitch = 16, x = 40, black = true,  playable = true }, -- A#
+    { pitch = 17, x = 42, black = false, playable = true }, -- B
+    { pitch = 18, x = 46, black = false, playable = true }, -- C
+    { pitch = 19, x = 48, black = true,  playable = true }, -- C#
+    { pitch = 20, x = 50, black = false, playable = true }, -- D
+    { pitch = 21, x = 52, black = true,  playable = true }, -- D#
+    { pitch = 22, x = 54, black = false, playable = true }, -- E
+    { pitch = 23, x = 58, black = false, playable = true }, -- F
+    { pitch = 24, x = 60, black = true,  playable = true }, -- F#
 
-    -- right unplayable padding
-    { pitch = 25, x = 63, black = false, playable = false }
+    { pitch = 25, x = 62, black = false, playable = false }
 }
+
 
 local WHITE_W, WHITE_H = 3, 6
 local BLACK_W, BLACK_H = 3, 3
@@ -73,6 +72,11 @@ local function mainView(ctx)
             end
             for _, k in ipairs(keys) do
                 if k.black then ctx.libs().button.draw("key_" .. k.pitch, mon) end
+            end
+
+            for i = 0, 14 do
+                local color = (i % 2 == 0) and colors.lightGray or colors.gray
+                ctx.libs().draw.DrawLine(3, 11 + i * 2, 2, 64, color, mon)
             end
         end,
         touch = function(x, y)

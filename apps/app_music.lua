@@ -292,6 +292,21 @@ local function mainView(ctx)
                 textX = 69,
                 textY = 36
             })
+
+            for i = 1, 9 do
+                local y = 12 + i * 2
+
+                ctx.libs().button.create({
+                    app = app,
+                    view = view,
+                    name = "songPositionBtn_" .. tostring(i),
+                    x = 3,
+                    y = y,
+                    w = 63,
+                    h = 2,
+                    colorOn = colors.cyan
+                })
+            end
         end,
         draw = function(mon)
             --ctx.libs().draw.drawLine(0, 3, 97, 38, colors.gray, mon)
@@ -302,6 +317,10 @@ local function mainView(ctx)
             end
             for _, k in ipairs(keys) do
                 if k.black then ctx.libs().button.draw("key_" .. k.pitch, mon) end
+            end
+
+            for i = 1, 9 do
+                ctx.libs().button.draw("songPositionBtn_" .. tostring(i), mon)
             end
 
             for i = 0, 9 do
@@ -425,6 +444,11 @@ local function mainView(ctx)
             end
             if ctx.libs().button.isWithinBoundingBox(x, y, "songTestChordBtn") then
                 PlayChord(currentChord)
+            end
+            for i = 1, 9 do
+                if ctx.libs().button.isWithinBoundingBox(x, y, "songPositionBtn_" .. tostring(i)) then
+                    print("Clicked position button " .. tostring(i))
+                end
             end
         end
     }

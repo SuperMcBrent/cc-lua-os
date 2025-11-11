@@ -346,7 +346,7 @@ local function mainView(ctx)
                 end
             end
 
-            ctx.libs().draw.drawTitle(3, 12, string.format("%03d", 69), colors.black, colors.white, mon)
+            ctx.libs().draw.drawTitle(3, 12, string.format("%03d", selectedSongPosition), colors.black, colors.white, mon)
 
             for _, note in ipairs(currentChord) do
                 for _, k in ipairs(keys) do
@@ -358,7 +358,7 @@ local function mainView(ctx)
                 end
             end
 
-            for i = 0, 8 do
+            for i = 1, 9 do
                 local chord = currentSong[i + currentScrollOffset]
                 if chord then
                     local y = 13 + i * 2
@@ -470,6 +470,7 @@ local function mainView(ctx)
                 if ctx.libs().button.isWithinBoundingBox(x, y, "songPositionBtn_" .. tostring(i)) then
                     print("Clicked position button " .. tostring(i))
                     selectedSongPosition = i
+                    currentChord = currentSong[selectedSongPosition] or {}
                 end
             end
         end

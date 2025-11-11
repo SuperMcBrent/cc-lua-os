@@ -324,7 +324,7 @@ local function mainView(ctx)
                 for _, k in ipairs(keys) do
                     if k.pitch == note.pitch then
                         local squareX = k.x
-                        ctx.libs().draw.DrawLine(squareX, 12, 3, 2, colors.orange, mon)
+                        ctx.libs().draw.drawLine(squareX, 12, 3, 2, colors.orange, mon)
                         break
                     end
                 end

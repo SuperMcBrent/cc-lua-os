@@ -48,6 +48,7 @@ local function create(params)
         visible = params.visible ~= false,
         textOn = text,
         textOff = params.textOff or "",
+        textColor = params.textColor or colors.white,
         textX = params.textX or params.x,
         textY = params.textY or params.y,
         header = params.header or "",
@@ -113,9 +114,9 @@ local function draw(id, mon)
         local text = b.state and b.textOn or b.textOff
         dependencies.draw.drawLine(b.x, b.y, b.width, b.height, color, mon)
         if b.header ~= "" then
-            dependencies.draw.drawTitle(b.x, b.y - 1, b.header, colors.white, colors.black, mon)
+            dependencies.draw.drawTitle(b.x, b.y - 1, b.header, b.textColor, colors.black, mon)
         end
-        dependencies.draw.drawTitle(b.textX, b.textY, text, colors.white, color, mon)
+        dependencies.draw.drawTitle(b.textX, b.textY, text, b.textColor, color, mon)
     end
 
     if composites[id] then

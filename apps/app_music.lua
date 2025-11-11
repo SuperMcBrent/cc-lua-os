@@ -49,6 +49,10 @@ local function mainView(ctx)
                     (not k.playable and colors.lightgray)
                     or (k.black and colors.black)
                     or colors.white
+                local textColor =
+                    (not k.playable and colors.black)
+                    or (k.black and colors.white)
+                    or colors.black
 
                 ctx.libs().button.create({
                     app = app,
@@ -62,13 +66,15 @@ local function mainView(ctx)
                     colorOff = color,
                     state = false,
                     textOn = k.note,
+                    textColor = textColor,
                     textX = k.x + math.floor(w / 2),
                     textY = START_Y + math.floor(h / 2)
                 })
             end
         end,
         draw = function(mon)
-            ctx.libs().draw.drawLine(0, 3, 97, 38, colors.gray, mon)
+            --ctx.libs().draw.drawLine(0, 3, 97, 38, colors.gray, mon)
+            ctx.libs().draw.drawLine(2, 4, 64, 10, colors.gray, mon)
 
             for _, k in ipairs(keys) do
                 if not k.black then ctx.libs().button.draw("key_" .. k.pitch, mon) end

@@ -1,35 +1,36 @@
 local keys = {
-    { pitch = -1, x = 2,  black = false, playable = false },
+    { pitch = -1, x = 2,  black = false, playable = false, note = "" },
 
     -- playable range 0–24 (F# .. F#)
-    { pitch = 0,  x = 4,  black = true,  playable = true }, -- F#
-    { pitch = 1,  x = 6,  black = false, playable = true }, -- G
-    { pitch = 2,  x = 8,  black = true,  playable = true }, -- G#
-    { pitch = 3,  x = 10, black = false, playable = true }, -- A
-    { pitch = 4,  x = 12, black = true,  playable = true }, -- A#
-    { pitch = 5,  x = 14, black = false, playable = true }, -- B
-    { pitch = 6,  x = 18, black = false, playable = true }, -- C
-    { pitch = 7,  x = 20, black = true,  playable = true }, -- C#
-    { pitch = 8,  x = 22, black = false, playable = true }, -- D
-    { pitch = 9,  x = 24, black = true,  playable = true }, -- D#
-    { pitch = 10, x = 26, black = false, playable = true }, -- E
-    { pitch = 11, x = 30, black = false, playable = true }, -- F
-    { pitch = 12, x = 32, black = true,  playable = true }, -- F#
-    { pitch = 13, x = 34, black = false, playable = true }, -- G
-    { pitch = 14, x = 36, black = true,  playable = true }, -- G#
-    { pitch = 15, x = 38, black = false, playable = true }, -- A
-    { pitch = 16, x = 40, black = true,  playable = true }, -- A#
-    { pitch = 17, x = 42, black = false, playable = true }, -- B
-    { pitch = 18, x = 46, black = false, playable = true }, -- C
-    { pitch = 19, x = 48, black = true,  playable = true }, -- C#
-    { pitch = 20, x = 50, black = false, playable = true }, -- D
-    { pitch = 21, x = 52, black = true,  playable = true }, -- D#
-    { pitch = 22, x = 54, black = false, playable = true }, -- E
-    { pitch = 23, x = 58, black = false, playable = true }, -- F
-    { pitch = 24, x = 60, black = true,  playable = true }, -- F#
+    { pitch = 0,  x = 4,  black = true,  playable = true,  note = "f" }, -- F#
+    { pitch = 1,  x = 6,  black = false, playable = true,  note = "G" }, -- G
+    { pitch = 2,  x = 8,  black = true,  playable = true,  note = "g" }, -- G#
+    { pitch = 3,  x = 10, black = false, playable = true,  note = "A" }, -- A
+    { pitch = 4,  x = 12, black = true,  playable = true,  note = "a" }, -- A#
+    { pitch = 5,  x = 14, black = false, playable = true,  note = "B" }, -- B
+    { pitch = 6,  x = 18, black = false, playable = true,  note = "C" }, -- C
+    { pitch = 7,  x = 20, black = true,  playable = true,  note = "c" }, -- C#
+    { pitch = 8,  x = 22, black = false, playable = true,  note = "D" }, -- D
+    { pitch = 9,  x = 24, black = true,  playable = true,  note = "d" }, -- D#
+    { pitch = 10, x = 26, black = false, playable = true,  note = "E" }, -- E
+    { pitch = 11, x = 30, black = false, playable = true,  note = "F" }, -- F
+    { pitch = 12, x = 32, black = true,  playable = true,  note = "f" }, -- F#
+    { pitch = 13, x = 34, black = false, playable = true,  note = "G" }, -- G
+    { pitch = 14, x = 36, black = true,  playable = true,  note = "g" }, -- G#
+    { pitch = 15, x = 38, black = false, playable = true,  note = "A" }, -- A
+    { pitch = 16, x = 40, black = true,  playable = true,  note = "a" }, -- A#
+    { pitch = 17, x = 42, black = false, playable = true,  note = "B" }, -- B
+    { pitch = 18, x = 46, black = false, playable = true,  note = "C" }, -- C
+    { pitch = 19, x = 48, black = true,  playable = true,  note = "c" }, -- C#
+    { pitch = 20, x = 50, black = false, playable = true,  note = "D" }, -- D
+    { pitch = 21, x = 52, black = true,  playable = true,  note = "d" }, -- D#
+    { pitch = 22, x = 54, black = false, playable = true,  note = "E" }, -- E
+    { pitch = 23, x = 58, black = false, playable = true,  note = "F" }, -- F
+    { pitch = 24, x = 60, black = true,  playable = true,  note = "f" }, -- F#
 
-    { pitch = 25, x = 62, black = false, playable = false }
+    { pitch = 25, x = 62, black = false, playable = false, note = "" }
 }
+
 
 
 local WHITE_W, WHITE_H = 3, 6
@@ -45,9 +46,9 @@ local function mainView(ctx)
                 local w = k.black and BLACK_W or WHITE_W
                 local h = k.black and BLACK_H or WHITE_H
                 local color =
-                    (not k.playable and colors.gray)
-                    or (k.black and colors.gray)
-                    or colors.lightGray
+                    (not k.playable and colors.lightgray)
+                    or (k.black and colors.black)
+                    or colors.white
 
                 ctx.libs().button.create({
                     app = app,
@@ -60,13 +61,15 @@ local function mainView(ctx)
                     colorOn = color,
                     colorOff = color,
                     state = false,
-                    textOn = tostring(k.pitch),
+                    textOn = k.note,
                     textX = k.x + math.floor(w / 2),
                     textY = START_Y + math.floor(h / 2)
                 })
             end
         end,
         draw = function(mon)
+            ctx.libs().draw.drawLine(0, 3, 97, 38, colors.gray, mon)
+
             for _, k in ipairs(keys) do
                 if not k.black then ctx.libs().button.draw("key_" .. k.pitch, mon) end
             end
@@ -74,9 +77,9 @@ local function mainView(ctx)
                 if k.black then ctx.libs().button.draw("key_" .. k.pitch, mon) end
             end
 
-            for i = 0, 14 do
-                local color = (i % 2 == 0) and colors.lightGray or colors.gray
-                ctx.libs().draw.DrawLine(3, 11 + i * 2, 2, 64, color, mon)
+            for i = 0, 9 do
+                local color = (i % 2 == 0) and colors.lightGray or colors.white
+                ctx.libs().draw.drawLine(2, 11 + i * 2, 63, 2, color, mon)
             end
         end,
         touch = function(x, y)

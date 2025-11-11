@@ -96,13 +96,13 @@ local function mainView(ctx)
                 view = view,
                 name = "songChordNextBtn",
                 x = 68,
-                y = 12,
+                y = 11,
                 w = 5,
                 h = 3,
                 colorOn = colors.cyan,
                 textOn = "Nxt",
                 textX = 69,
-                textY = 13
+                textY = 12
             })
 
             ctx.libs().button.create({
@@ -110,13 +110,13 @@ local function mainView(ctx)
                 view = view,
                 name = "songTestChordBtn",
                 x = 74,
-                y = 12,
+                y = 11,
                 w = 5,
                 h = 3,
                 colorOn = colors.lime,
                 textOn = "Tst",
                 textX = 75,
-                textY = 13
+                textY = 12
             })
 
             ctx.libs().button.create({
@@ -124,13 +124,13 @@ local function mainView(ctx)
                 view = view,
                 name = "songChordPrevBtn",
                 x = 68,
-                y = 16,
+                y = 15,
                 w = 5,
                 h = 3,
                 colorOn = colors.cyan,
                 textOn = "Prv",
                 textX = 69,
-                textY = 17
+                textY = 16
             })
 
             ctx.libs().button.create({
@@ -138,13 +138,41 @@ local function mainView(ctx)
                 view = view,
                 name = "songClearChordBtn",
                 x = 74,
-                y = 16,
+                y = 15,
                 w = 5,
                 h = 3,
                 colorOn = colors.red,
                 textOn = "Clr",
                 textX = 75,
-                textY = 17
+                textY = 16
+            })
+
+            ctx.libs().button.create({
+                app = app,
+                view = view,
+                name = "songChordAddBtn",
+                x = 68,
+                y = 19,
+                w = 5,
+                h = 3,
+                colorOn = colors.lime,
+                textOn = "Add",
+                textX = 69,
+                textY = 20
+            })
+
+            ctx.libs().button.create({
+                app = app,
+                view = view,
+                name = "songChordRemoveBtn",
+                x = 74,
+                y = 19,
+                w = 5,
+                h = 3,
+                colorOn = colors.red,
+                textOn = "Del",
+                textX = 75,
+                textY = 20
             })
 
             ctx.libs().button.create({

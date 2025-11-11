@@ -234,34 +234,20 @@ local function mainView(ctx)
             ctx.libs().button.create({
                 app = app,
                 view = view,
-                name = "nothing_8",
-                x = 68,
-                y = 36,
-                w = 11,
-                h = 3,
-                colorOn = colors.cyan,
-                textOn = "Nothin",
-                textX = 70,
-                textY = 33
-            })
-
-            ctx.libs().button.create({
-                app = app,
-                view = view,
                 name = "nothing_9",
                 x = 2,
-                y = 36,
+                y = 35,
                 w = 11,
                 h = 3,
                 colorOn = colors.cyan,
                 textOn = "Nothin",
-                textX = 70,
-                textY = 33
+                textX = 3,
+                textY = 36
             })
         end,
         draw = function(mon)
             --ctx.libs().draw.drawLine(0, 3, 97, 38, colors.gray, mon)
-            ctx.libs().draw.drawLine(2, 4, 65, 31, colors.gray, mon)
+            ctx.libs().draw.drawLine(2, 4, 65, 30, colors.gray, mon)
 
             for _, k in ipairs(keys) do
                 if not k.black then ctx.libs().button.draw("key_" .. k.pitch, mon) end
@@ -271,7 +257,7 @@ local function mainView(ctx)
             end
 
             for i = 0, 9 do
-                local offset = (i == 0) and 0 or 2
+                local offset = (i == 0) and 0 or 1
                 local y = 12 + i * 2 + offset
 
                 local color
@@ -297,7 +283,6 @@ local function mainView(ctx)
             ctx.libs().button.draw("songStopBtn", mon)
             ctx.libs().button.draw("nothing_6", mon)
             ctx.libs().button.draw("nothing_7", mon)
-            ctx.libs().button.draw("nothing_8", mon)
             ctx.libs().button.draw("nothing_9", mon)
         end,
         touch = function(x, y)

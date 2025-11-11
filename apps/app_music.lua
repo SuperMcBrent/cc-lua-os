@@ -83,11 +83,109 @@ local function mainView(ctx)
                 name = "instrumentsSelectionBtn",
                 x = 68,
                 y = 4,
-                w = 8,
+                w = 11,
                 h = 3,
                 colorOn = colors.cyan,
                 textOn = "Sounds",
-                textX = 69,
+                textX = 70,
+                textY = 5
+            })
+
+            ctx.libs().button.create({
+                app = app,
+                view = view,
+                name = "instrumentsSelectionBtn",
+                x = 68,
+                y = 8,
+                w = 11,
+                h = 3,
+                colorOn = colors.cyan,
+                textOn = "Nothin",
+                textX = 70,
+                textY = 5
+            })
+
+            ctx.libs().button.create({
+                app = app,
+                view = view,
+                name = "instrumentsSelectionBtn",
+                x = 68,
+                y = 12,
+                w = 11,
+                h = 3,
+                colorOn = colors.cyan,
+                textOn = "Nothin",
+                textX = 70,
+                textY = 5
+            })
+
+            ctx.libs().button.create({
+                app = app,
+                view = view,
+                name = "instrumentsSelectionBtn",
+                x = 68,
+                y = 16,
+                w = 11,
+                h = 3,
+                colorOn = colors.cyan,
+                textOn = "Nothin",
+                textX = 70,
+                textY = 5
+            })
+
+            ctx.libs().button.create({
+                app = app,
+                view = view,
+                name = "instrumentsSelectionBtn",
+                x = 68,
+                y = 20,
+                w = 11,
+                h = 3,
+                colorOn = colors.cyan,
+                textOn = "Nothin",
+                textX = 70,
+                textY = 5
+            })
+
+            ctx.libs().button.create({
+                app = app,
+                view = view,
+                name = "instrumentsSelectionBtn",
+                x = 68,
+                y = 24,
+                w = 11,
+                h = 3,
+                colorOn = colors.cyan,
+                textOn = "Nothin",
+                textX = 70,
+                textY = 5
+            })
+
+            ctx.libs().button.create({
+                app = app,
+                view = view,
+                name = "instrumentsSelectionBtn",
+                x = 68,
+                y = 28,
+                w = 11,
+                h = 3,
+                colorOn = colors.cyan,
+                textOn = "Nothin",
+                textX = 70,
+                textY = 5
+            })
+
+            ctx.libs().button.create({
+                app = app,
+                view = view,
+                name = "instrumentsSelectionBtn",
+                x = 68,
+                y = 32,
+                w = 11,
+                h = 3,
+                colorOn = colors.cyan,
+                textOn = "Nothin",
+                textX = 70,
                 textY = 5
             })
         end,

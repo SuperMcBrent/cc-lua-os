@@ -94,7 +94,7 @@ local function mainView(ctx)
             ctx.libs().button.create({
                 app = app,
                 view = view,
-                name = "instrumentsSelectionBtn",
+                name = "nothing_1",
                 x = 68,
                 y = 8,
                 w = 11,
@@ -108,7 +108,7 @@ local function mainView(ctx)
             ctx.libs().button.create({
                 app = app,
                 view = view,
-                name = "instrumentsSelectionBtn",
+                name = "nothing_2",
                 x = 68,
                 y = 12,
                 w = 11,
@@ -122,7 +122,7 @@ local function mainView(ctx)
             ctx.libs().button.create({
                 app = app,
                 view = view,
-                name = "instrumentsSelectionBtn",
+                name = "nothing_3",
                 x = 68,
                 y = 16,
                 w = 11,
@@ -136,7 +136,7 @@ local function mainView(ctx)
             ctx.libs().button.create({
                 app = app,
                 view = view,
-                name = "instrumentsSelectionBtn",
+                name = "nothing_4",
                 x = 68,
                 y = 20,
                 w = 11,
@@ -150,7 +150,7 @@ local function mainView(ctx)
             ctx.libs().button.create({
                 app = app,
                 view = view,
-                name = "instrumentsSelectionBtn",
+                name = "nothing_5",
                 x = 68,
                 y = 24,
                 w = 11,
@@ -164,7 +164,7 @@ local function mainView(ctx)
             ctx.libs().button.create({
                 app = app,
                 view = view,
-                name = "instrumentsSelectionBtn",
+                name = "nothing_6",
                 x = 68,
                 y = 28,
                 w = 11,
@@ -178,7 +178,7 @@ local function mainView(ctx)
             ctx.libs().button.create({
                 app = app,
                 view = view,
-                name = "instrumentsSelectionBtn",
+                name = "nothing_7",
                 x = 68,
                 y = 32,
                 w = 11,
@@ -201,11 +201,20 @@ local function mainView(ctx)
             end
 
             for i = 0, 10 do
+                local y = 12 + i * 2
                 local color = (i % 2 == 0) and colors.lightGray or colors.white
-                ctx.libs().draw.drawLine(3, 12 + i * 2, 63, 2, color, mon)
+                ctx.libs().draw.DrawTitle(1, y, tostring(i), colors.black, color, mon)
+                ctx.libs().draw.drawLine(3, y, 63, 2, color, mon)
             end
 
             ctx.libs().button.draw("instrumentsSelectionBtn", mon)
+            ctx.libs().button.draw("nothing_1", mon)
+            ctx.libs().button.draw("nothing_2", mon)
+            ctx.libs().button.draw("nothing_3", mon)
+            ctx.libs().button.draw("nothing_4", mon)
+            ctx.libs().button.draw("nothing_5", mon)
+            ctx.libs().button.draw("nothing_6", mon)
+            ctx.libs().button.draw("nothing_7", mon)
         end,
         touch = function(x, y)
             for _, k in ipairs(keys) do

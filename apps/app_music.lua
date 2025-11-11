@@ -206,12 +206,19 @@ local function mainView(ctx)
             for i = 0, 9 do
                 local offset = (i == 0) and 0 or 2
                 local y = 12 + i * 2 + offset
-                local color = (i % 2 == 0) and colors.lightGray or colors.white
-                local label = string.format("%03d", i)
 
+                local color
+                if i < 2 then
+                    color = colors.white
+                else
+                    color = ((i - 2) % 2 == 0) and colors.lightGray or colors.white
+                end
+
+                local label = string.format("%03d", i)
                 ctx.libs().draw.drawLine(3, y, 63, 2, color, mon)
                 ctx.libs().draw.drawTitle(3, y, label, colors.black, color, mon)
             end
+
 
             ctx.libs().button.draw("instrumentsSelectionBtn", mon)
             ctx.libs().button.draw("songSaveBtn", mon)

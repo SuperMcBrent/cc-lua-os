@@ -215,7 +215,7 @@ local function mainView(ctx)
             ctx.libs().button.draw("instrumentsSelectionBtn", mon)
             ctx.libs().button.draw("songSaveBtn", mon)
             ctx.libs().button.draw("songLoadBtn", mon)
-            ctx.libs().button.draw("nothing_3", mon)
+            ctx.libs().button.draw("songTempoBtn", mon)
             ctx.libs().button.draw("nothing_4", mon)
             ctx.libs().button.draw("nothing_5", mon)
             ctx.libs().button.draw("nothing_6", mon)
@@ -237,7 +237,9 @@ local function mainView(ctx)
             ::blackWasHit::
             if ctx.libs().button.isWithinBoundingBox(x, y, "songTempoBtn") then
                 local newTempo = SwitchTempo()
-                ctx.libs().button.update("songTempoBtn", { textOn = "Spd: " .. tostring(newTempo) })
+                ctx.libs().button.update("songTempoBtn", {
+                    textOn = "Spd: " .. string.format("%.1f", newTempo)
+                })
             end
         end
     }

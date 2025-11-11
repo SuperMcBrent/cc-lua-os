@@ -31,6 +31,17 @@ local keys = {
     { pitch = 25, x = 63, black = false, playable = false, note = "" }
 }
 
+local testSong = {
+    [0] = { { pitch = 6, instrument = "harp" } },
+    [1] = { { pitch = 8, instrument = "harp" } },
+    [2] = { { pitch = 10, instrument = "harp" } },
+    [3] = { { pitch = 11, instrument = "harp" } },
+    [4] = { { pitch = 13, instrument = "harp" } },
+    [5] = { { pitch = 15, instrument = "harp" } },
+    [6] = { { pitch = 17, instrument = "harp" } },
+    [7] = { { pitch = 18, instrument = "harp" } }
+}
+
 local tempo = 0.2
 local tempos = { 0.2, 0.4, 0.6, 0.8, 1.0 }
 
@@ -139,13 +150,27 @@ local function mainView(ctx)
             ctx.libs().button.create({
                 app = app,
                 view = view,
-                name = "nothing_4",
+                name = "songChordNextBtn",
                 x = 68,
                 y = 20,
-                w = 11,
+                w = 5,
                 h = 3,
                 colorOn = colors.cyan,
-                textOn = "Nothin",
+                textOn = "Nxt",
+                textX = 70,
+                textY = 21
+            })
+
+            ctx.libs().button.create({
+                app = app,
+                view = view,
+                name = "songChordPrevBtn",
+                x = 65,
+                y = 20,
+                w = 5,
+                h = 3,
+                colorOn = colors.cyan,
+                textOn = "Prv",
                 textX = 70,
                 textY = 21
             })
@@ -224,7 +249,8 @@ local function mainView(ctx)
             ctx.libs().button.draw("songSaveBtn", mon)
             ctx.libs().button.draw("songLoadBtn", mon)
             ctx.libs().button.draw("songTempoBtn", mon)
-            ctx.libs().button.draw("nothing_4", mon)
+            ctx.libs().button.draw("songChordNextBtn", mon)
+            ctx.libs().button.draw("songChordPrevBtn", mon)
             ctx.libs().button.draw("nothing_5", mon)
             ctx.libs().button.draw("nothing_6", mon)
             ctx.libs().button.draw("nothing_7", mon)

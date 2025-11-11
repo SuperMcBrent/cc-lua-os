@@ -31,6 +31,9 @@ local keys = {
     { pitch = 25, x = 63, black = false, playable = false, note = "" }
 }
 
+local tempo = 0.2
+local tempos = { 0.2, 0.4, 0.6, 0.8, 1.0 }
+
 local speaker0 = peripheral.wrap("speaker_0")
 
 local WHITE_W, WHITE_H = 3, 6
@@ -122,14 +125,14 @@ local function mainView(ctx)
             ctx.libs().button.create({
                 app = app,
                 view = view,
-                name = "nothing_3",
+                name = "songTempoBtn",
                 x = 68,
                 y = 16,
                 w = 11,
                 h = 3,
                 colorOn = colors.cyan,
-                textOn = "Nothin",
-                textX = 70,
+                textOn = "Spd: " .. tostring(tempo),
+                textX = 69,
                 textY = 17
             })
 
@@ -232,8 +235,25 @@ local function mainView(ctx)
                 end
             end
             ::blackWasHit::
+            if ctx.libs().button.isWithinBoundingBox(x, y, "songTempoBtn") then
+                local newTempo = SwitchTempo()
+                ctx.libs().button.update("songTempoBtn", { textOn = "Spd: " .. tostring(newTempo) })
+            end
         end
     }
+end
+
+function SwitchTempo()
+    for i, t in ipairs(tempos) do
+        if tempo == t then
+            local nextIndex = (i % #tempos) + 1
+            tempo = tempos[nextIndex]
+            return tempo
+        end
+    end
+    -- fallback if tempo somehow isn't one of the list
+    tempo = tempos[1]
+    return tempo
 end
 
 local views = { root = mainView }

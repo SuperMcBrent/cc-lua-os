@@ -205,8 +205,8 @@ local function mainView(ctx)
                 local color = (i % 2 == 0) and colors.lightGray or colors.white
                 local label = string.format("%03d", i)
 
-                ctx.libs().draw.drawTitle(3, y, label, colors.black, color, mon)
                 ctx.libs().draw.drawLine(3, y, 63, 2, color, mon)
+                ctx.libs().draw.drawTitle(3, y, label, colors.black, color, mon)
             end
 
             ctx.libs().button.draw("instrumentsSelectionBtn", mon)

@@ -46,6 +46,9 @@ local tempo = 0.2
 local tempos = { 0.2, 0.4, 0.6, 0.8, 1.0 }
 local currentInstrument = "pling"
 local currentChord = {}
+local currentScrollOffset = 0
+local currentSong = testSong
+local selectedSongPosition = 0
 
 local speaker0 = peripheral.wrap("speaker_0")
 local speaker1 = peripheral.wrap("speaker_1")
@@ -294,7 +297,7 @@ local function mainView(ctx)
             })
 
             for i = 1, 9 do
-                local y = 12 + i * 2
+                local y = 13 + i * 2
 
                 ctx.libs().button.create({
                     app = app,
@@ -304,6 +307,7 @@ local function mainView(ctx)
                     y = y,
                     w = 63,
                     h = 2,
+                    textOn = "songPositionBtn_" .. tostring(i),
                     colorOn = colors.cyan
                 })
             end
@@ -350,6 +354,23 @@ local function mainView(ctx)
                         local squareX = k.x
                         ctx.libs().draw.drawLine(squareX, 12, 3, 2, colors.orange, mon)
                         break
+                    end
+                end
+            end
+
+            for i = 0, 8 do
+                local chord = currentSong[i + currentScrollOffset]
+                if chord then
+                    local y = 13 + i * 2
+
+                    for _, note in ipairs(chord) do
+                        for _, k in ipairs(keys) do
+                            if k.pitch == note.pitch then
+                                local squareX = k.x
+                                ctx.libs().draw.drawLine(squareX, y, 3, 2, colors.orange, mon)
+                                break
+                            end
+                        end
                     end
                 end
             end
@@ -448,6 +469,7 @@ local function mainView(ctx)
             for i = 1, 9 do
                 if ctx.libs().button.isWithinBoundingBox(x, y, "songPositionBtn_" .. tostring(i)) then
                     print("Clicked position button " .. tostring(i))
+                    selectedSongPosition = i
                 end
             end
         end

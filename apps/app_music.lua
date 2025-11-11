@@ -44,6 +44,8 @@ local testSong = {
 
 local tempo = 0.2
 local tempos = { 0.2, 0.4, 0.6, 0.8, 1.0 }
+local currentInstrument = "pling"
+local currentChord = {}
 
 local speaker0 = peripheral.wrap("speaker_0")
 
@@ -82,7 +84,7 @@ local function mainView(ctx)
                     w = w,
                     h = h,
                     colorOn = color,
-                    colorOff = color,
+                    colorOff = colors.cyan,
                     state = false,
                     textOn = k.note,
                     textColor = textColor,
@@ -333,17 +335,67 @@ local function mainView(ctx)
         touch = function(x, y)
             for _, k in ipairs(keys) do
                 if k.black and ctx.libs().button.isWithinBoundingBox(x, y, "key_" .. k.pitch) and k.playable then
-                    speaker0.playNote("pling", 3, k.pitch)
+                    local found = false
+
+                    for i, note in ipairs(currentChord) do
+                        if note.pitch == k.pitch then
+                            table.remove(currentChord, i)
+                            found = true
+                            break
+                        end
+                    end
+
+                    if not found then
+                        speaker0.playNote(currentInstrument, 3, k.pitch)
+                        table.insert(currentChord, {
+                            pitch = k.pitch,
+                            instrument = currentInstrument
+                        })
+                    end
+
                     goto blackWasHit
                 end
             end
+
             for _, k in ipairs(keys) do
                 if not k.black and ctx.libs().button.isWithinBoundingBox(x, y, "key_" .. k.pitch) and k.playable then
-                    speaker0.playNote("pling", 3, k.pitch)
+                    local found = false
+
+                    for i, note in ipairs(currentChord) do
+                        if note.pitch == k.pitch then
+                            table.remove(currentChord, i)
+                            found = true
+                            break
+                        end
+                    end
+
+                    if not found then
+                        speaker0.playNote(currentInstrument, 3, k.pitch)
+                        table.insert(currentChord, {
+                            pitch = k.pitch,
+                            instrument = currentInstrument
+                        })
+                    end
+
                     goto blackWasHit
                 end
             end
+
             ::blackWasHit::
+
+            for _, k in ipairs(keys) do
+                local isInChord = false
+                for _, note in ipairs(currentChord) do
+                    if note.pitch == k.pitch then
+                        isInChord = true
+                        break
+                    end
+                end
+                ctx.libs().button.update("key_" .. k.pitch, { state = isInChord })
+            end
+
+            ----------------------
+
             if ctx.libs().button.isWithinBoundingBox(x, y, "songTempoBtn") then
                 local newTempo = SwitchTempo()
                 ctx.libs().button.update("songTempoBtn", {

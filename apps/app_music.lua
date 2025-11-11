@@ -94,62 +94,6 @@ local function mainView(ctx)
             ctx.libs().button.create({
                 app = app,
                 view = view,
-                name = "instrumentsSelectionBtn",
-                x = 68,
-                y = 4,
-                w = 11,
-                h = 3,
-                colorOn = colors.cyan,
-                textOn = "Sounds",
-                textX = 70,
-                textY = 5
-            })
-
-            ctx.libs().button.create({
-                app = app,
-                view = view,
-                name = "songSaveBtn",
-                x = 68,
-                y = 8,
-                w = 11,
-                h = 3,
-                colorOn = colors.cyan,
-                textOn = "Save",
-                textX = 71,
-                textY = 9
-            })
-
-            ctx.libs().button.create({
-                app = app,
-                view = view,
-                name = "songLoadBtn",
-                x = 68,
-                y = 12,
-                w = 11,
-                h = 3,
-                colorOn = colors.cyan,
-                textOn = "Load",
-                textX = 71,
-                textY = 13
-            })
-
-            ctx.libs().button.create({
-                app = app,
-                view = view,
-                name = "songTempoBtn",
-                x = 68,
-                y = 16,
-                w = 11,
-                h = 3,
-                colorOn = colors.cyan,
-                textOn = "Spd: " .. tostring(tempo),
-                textX = 69,
-                textY = 17
-            })
-
-            ctx.libs().button.create({
-                app = app,
-                view = view,
                 name = "songChordNextBtn",
                 x = 68,
                 y = 20,
@@ -234,14 +178,56 @@ local function mainView(ctx)
             ctx.libs().button.create({
                 app = app,
                 view = view,
-                name = "nothing_9",
+                name = "instrumentsSelectionBtn",
                 x = 2,
                 y = 35,
                 w = 11,
                 h = 3,
                 colorOn = colors.cyan,
-                textOn = "Nothin",
+                textOn = "Sounds",
                 textX = 3,
+                textY = 36
+            })
+
+            ctx.libs().button.create({
+                app = app,
+                view = view,
+                name = "songLoadBtn",
+                x = 19,
+                y = 35,
+                w = 11,
+                h = 3,
+                colorOn = colors.cyan,
+                textOn = "Load",
+                textX = 22,
+                textY = 36
+            })
+
+            ctx.libs().button.create({
+                app = app,
+                view = view,
+                name = "songSaveBtn",
+                x = 36,
+                y = 35,
+                w = 11,
+                h = 3,
+                colorOn = colors.cyan,
+                textOn = "Save",
+                textX = 39,
+                textY = 36
+            })
+
+            ctx.libs().button.create({
+                app = app,
+                view = view,
+                name = "songTempoBtn",
+                x = 53,
+                y = 35,
+                w = 11,
+                h = 3,
+                colorOn = colors.cyan,
+                textOn = "Spd: " .. tostring(tempo),
+                textX = 54,
                 textY = 36
             })
         end,
@@ -283,7 +269,6 @@ local function mainView(ctx)
             ctx.libs().button.draw("songStopBtn", mon)
             ctx.libs().button.draw("nothing_6", mon)
             ctx.libs().button.draw("nothing_7", mon)
-            ctx.libs().button.draw("nothing_9", mon)
         end,
         touch = function(x, y)
             for _, k in ipairs(keys) do

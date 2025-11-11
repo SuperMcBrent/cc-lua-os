@@ -412,7 +412,7 @@ local function mainView(ctx)
                         })
                     end
 
-                    updateKeyVisuals()
+                    updateKeyVisuals(ctx)
                     goto blackWasHit
                 end
             end
@@ -437,7 +437,7 @@ local function mainView(ctx)
                         })
                     end
 
-                    updateKeyVisuals()
+                    updateKeyVisuals(ctx)
                     goto blackWasHit
                 end
             end
@@ -458,14 +458,14 @@ local function mainView(ctx)
                     print("Clicked position button " .. tostring(i))
                     selectedSongPosition = i
                     currentChord = currentSong[selectedSongPosition] or {}
-                    updateKeyVisuals()
+                    updateKeyVisuals(ctx)
                 end
             end
         end
     }
 end
 
-function updateKeyVisuals()
+function updateKeyVisuals(ctx)
     for _, k in ipairs(keys) do
         local isInChord = false
 

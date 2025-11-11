@@ -157,7 +157,7 @@ local function mainView(ctx)
                 h = 3,
                 colorOn = colors.cyan,
                 textOn = "Nxt",
-                textX = 70,
+                textX = 69,
                 textY = 21
             })
 
@@ -165,13 +165,13 @@ local function mainView(ctx)
                 app = app,
                 view = view,
                 name = "songChordPrevBtn",
-                x = 65,
+                x = 74,
                 y = 20,
                 w = 5,
                 h = 3,
                 colorOn = colors.cyan,
                 textOn = "Prv",
-                textX = 70,
+                textX = 75,
                 textY = 21
             })
 

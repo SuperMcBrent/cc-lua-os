@@ -87,6 +87,7 @@ local function mainView(ctx)
                     colorOff = colors.cyan,
                     state = false,
                     textOn = k.note,
+                    textOff = k.note,
                     textColor = textColor,
                     textX = k.x + math.floor(w / 2),
                     textY = textY
@@ -316,6 +317,16 @@ local function mainView(ctx)
                 ctx.libs().draw.drawTitle(3, y, label, colors.black, color, mon)
             end
 
+            for _, note in ipairs(currentChord) do
+                for _, k in ipairs(keys) do
+                    if k.pitch == note.pitch then
+                        local squareX = k.x
+                        ctx.libs().draw.DrawLine(squareX, 12, 3, 2, colors.orange, mon)
+                        break
+                    end
+                end
+            end
+
             ctx.libs().button.draw("songChordNextBtn", mon)
             ctx.libs().button.draw("songChordPrevBtn", mon)
             ctx.libs().button.draw("songTestChordBtn", mon)
@@ -336,6 +347,7 @@ local function mainView(ctx)
             for _, k in ipairs(keys) do
                 if k.black and ctx.libs().button.isWithinBoundingBox(x, y, "key_" .. k.pitch) and k.playable then
                     local found = false
+                    speaker0.playNote(currentInstrument, 3, k.pitch)
 
                     for i, note in ipairs(currentChord) do
                         if note.pitch == k.pitch then
@@ -346,7 +358,6 @@ local function mainView(ctx)
                     end
 
                     if not found then
-                        speaker0.playNote(currentInstrument, 3, k.pitch)
                         table.insert(currentChord, {
                             pitch = k.pitch,
                             instrument = currentInstrument
@@ -360,6 +371,7 @@ local function mainView(ctx)
             for _, k in ipairs(keys) do
                 if not k.black and ctx.libs().button.isWithinBoundingBox(x, y, "key_" .. k.pitch) and k.playable then
                     local found = false
+                    speaker0.playNote(currentInstrument, 3, k.pitch)
 
                     for i, note in ipairs(currentChord) do
                         if note.pitch == k.pitch then
@@ -370,7 +382,6 @@ local function mainView(ctx)
                     end
 
                     if not found then
-                        speaker0.playNote(currentInstrument, 3, k.pitch)
                         table.insert(currentChord, {
                             pitch = k.pitch,
                             instrument = currentInstrument

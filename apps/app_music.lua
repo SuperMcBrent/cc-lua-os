@@ -203,8 +203,9 @@ local function mainView(ctx)
                 if k.black then ctx.libs().button.draw("key_" .. k.pitch, mon) end
             end
 
-            for i = 0, 10 do
-                local y = 12 + i * 2
+            for i = 0, 9 do
+                local offset = (i == 0) and 0 or 2
+                local y = 12 + i * 2 + offset
                 local color = (i % 2 == 0) and colors.lightGray or colors.white
                 local label = string.format("%03d", i)
 

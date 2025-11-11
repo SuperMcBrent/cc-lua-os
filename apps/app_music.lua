@@ -90,8 +90,6 @@ local function mainView(ctx)
                 textX = 69,
                 textY = 5
             })
-
-            ctx.libs().button.quick(app, view, "instrumentsSelectionBtn", 68, 4, text, colorOn)
         end,
         draw = function(mon)
             --ctx.libs().draw.drawLine(0, 3, 97, 38, colors.gray, mon)
@@ -108,6 +106,8 @@ local function mainView(ctx)
                 local color = (i % 2 == 0) and colors.lightGray or colors.white
                 ctx.libs().draw.drawLine(3, 12 + i * 2, 63, 2, color, mon)
             end
+
+            ctx.libs().button.draw("instrumentsSelectionBtn", mon)
         end,
         touch = function(x, y)
             for _, k in ipairs(keys) do

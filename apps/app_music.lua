@@ -94,28 +94,28 @@ local function mainView(ctx)
             ctx.libs().button.create({
                 app = app,
                 view = view,
-                name = "nothing_1",
+                name = "songSaveBtn",
                 x = 68,
                 y = 8,
                 w = 11,
                 h = 3,
                 colorOn = colors.cyan,
-                textOn = "Nothin",
-                textX = 70,
+                textOn = "Save",
+                textX = 71,
                 textY = 9
             })
 
             ctx.libs().button.create({
                 app = app,
                 view = view,
-                name = "nothing_2",
+                name = "songLoadBtn",
                 x = 68,
                 y = 12,
                 w = 11,
                 h = 3,
                 colorOn = colors.cyan,
-                textOn = "Nothin",
-                textX = 70,
+                textOn = "Load",
+                textX = 71,
                 textY = 13
             })
 
@@ -210,8 +210,8 @@ local function mainView(ctx)
             end
 
             ctx.libs().button.draw("instrumentsSelectionBtn", mon)
-            ctx.libs().button.draw("nothing_1", mon)
-            ctx.libs().button.draw("nothing_2", mon)
+            ctx.libs().button.draw("songSaveBtn", mon)
+            ctx.libs().button.draw("songLoadBtn", mon)
             ctx.libs().button.draw("nothing_3", mon)
             ctx.libs().button.draw("nothing_4", mon)
             ctx.libs().button.draw("nothing_5", mon)

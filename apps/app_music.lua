@@ -180,13 +180,13 @@ local function mainView(ctx)
                 view = view,
                 name = "songPlayAllBtn",
                 x = 68,
-                y = 24,
+                y = 23,
                 w = 5,
                 h = 3,
                 colorOn = colors.green,
                 textOn = "Ply",
                 textX = 69,
-                textY = 25
+                textY = 24
             })
 
             ctx.libs().button.create({
@@ -194,13 +194,13 @@ local function mainView(ctx)
                 view = view,
                 name = "songStopBtn",
                 x = 74,
-                y = 24,
+                y = 23,
                 w = 5,
                 h = 3,
                 colorOn = colors.red,
                 textOn = "Stp",
                 textX = 75,
-                textY = 25
+                textY = 24
             })
 
             ctx.libs().button.create({
@@ -314,17 +314,19 @@ local function mainView(ctx)
                 ctx.libs().draw.drawTitle(3, y, label, colors.black, color, mon)
             end
 
+            ctx.libs().button.draw("songChordNextBtn", mon)
+            ctx.libs().button.draw("songChordPrevBtn", mon)
+            ctx.libs().button.draw("songTestChordBtn", mon)
+            ctx.libs().button.draw("songClearChordBtn", mon)
+            ctx.libs().button.draw("songChordAddBtn", mon)
+            ctx.libs().button.draw("songChordRemoveBtn", mon)
+            ctx.libs().button.draw("songPlayAllBtn", mon)
+            ctx.libs().button.draw("songStopBtn", mon)
 
             ctx.libs().button.draw("instrumentsSelectionBtn", mon)
             ctx.libs().button.draw("songSaveBtn", mon)
             ctx.libs().button.draw("songLoadBtn", mon)
             ctx.libs().button.draw("songTempoBtn", mon)
-            ctx.libs().button.draw("songChordNextBtn", mon)
-            ctx.libs().button.draw("songChordPrevBtn", mon)
-            ctx.libs().button.draw("songPlayAllBtn", mon)
-            ctx.libs().button.draw("songStopBtn", mon)
-            ctx.libs().button.draw("songTestChordBtn", mon)
-            ctx.libs().button.draw("songClearChordBtn", mon)
             ctx.libs().button.draw("nothing_6", mon)
             ctx.libs().button.draw("nothing_7", mon)
         end,

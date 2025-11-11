@@ -96,27 +96,55 @@ local function mainView(ctx)
                 view = view,
                 name = "songChordNextBtn",
                 x = 68,
-                y = 20,
+                y = 12,
                 w = 5,
                 h = 3,
                 colorOn = colors.cyan,
                 textOn = "Nxt",
                 textX = 69,
-                textY = 21
+                textY = 13
+            })
+
+            ctx.libs().button.create({
+                app = app,
+                view = view,
+                name = "songTestChordBtn",
+                x = 74,
+                y = 12,
+                w = 5,
+                h = 3,
+                colorOn = colors.lime,
+                textOn = "Tst",
+                textX = 75,
+                textY = 13
             })
 
             ctx.libs().button.create({
                 app = app,
                 view = view,
                 name = "songChordPrevBtn",
-                x = 74,
-                y = 20,
+                x = 68,
+                y = 16,
                 w = 5,
                 h = 3,
                 colorOn = colors.cyan,
                 textOn = "Prv",
+                textX = 69,
+                textY = 17
+            })
+
+            ctx.libs().button.create({
+                app = app,
+                view = view,
+                name = "songClearChordBtn",
+                x = 74,
+                y = 16,
+                w = 5,
+                h = 3,
+                colorOn = colors.red,
+                textOn = "Clr",
                 textX = 75,
-                textY = 21
+                textY = 17
             })
 
             ctx.libs().button.create({
@@ -150,34 +178,6 @@ local function mainView(ctx)
             ctx.libs().button.create({
                 app = app,
                 view = view,
-                name = "songTestChordBtn",
-                x = 68,
-                y = 28,
-                w = 5,
-                h = 3,
-                colorOn = colors.lime,
-                textOn = "Tst",
-                textX = 69,
-                textY = 29
-            })
-
-            ctx.libs().button.create({
-                app = app,
-                view = view,
-                name = "songClearChordBtn",
-                x = 74,
-                y = 28,
-                w = 5,
-                h = 3,
-                colorOn = colors.red,
-                textOn = "Clr",
-                textX = 75,
-                textY = 29
-            })
-
-            ctx.libs().button.create({
-                app = app,
-                view = view,
                 name = "instrumentsSelectionBtn",
                 x = 2,
                 y = 35,
@@ -185,7 +185,7 @@ local function mainView(ctx)
                 h = 3,
                 colorOn = colors.cyan,
                 textOn = "Sounds",
-                textX = 3,
+                textX = 4,
                 textY = 36
             })
 
@@ -193,7 +193,7 @@ local function mainView(ctx)
                 app = app,
                 view = view,
                 name = "songLoadBtn",
-                x = 14,
+                x = 15,
                 y = 35,
                 w = 11,
                 h = 3,
@@ -207,13 +207,13 @@ local function mainView(ctx)
                 app = app,
                 view = view,
                 name = "songSaveBtn",
-                x = 26,
+                x = 28,
                 y = 35,
                 w = 11,
                 h = 3,
                 colorOn = colors.cyan,
                 textOn = "Save",
-                textX = 29,
+                textX = 31,
                 textY = 36
             })
 
@@ -221,13 +221,13 @@ local function mainView(ctx)
                 app = app,
                 view = view,
                 name = "songTempoBtn",
-                x = 38,
+                x = 41,
                 y = 35,
                 w = 11,
                 h = 3,
                 colorOn = colors.cyan,
                 textOn = "Spd: " .. tostring(tempo),
-                textX = 39,
+                textX = 42,
                 textY = 36
             })
 
@@ -235,13 +235,13 @@ local function mainView(ctx)
                 app = app,
                 view = view,
                 name = "nothing_6",
-                x = 50,
+                x = 54,
                 y = 35,
                 w = 11,
                 h = 3,
                 colorOn = colors.cyan,
                 textOn = "Nothin",
-                textX = 51,
+                textX = 56,
                 textY = 36
             })
 
@@ -249,13 +249,13 @@ local function mainView(ctx)
                 app = app,
                 view = view,
                 name = "nothing_7",
-                x = 62,
+                x = 67,
                 y = 35,
                 w = 11,
                 h = 3,
                 colorOn = colors.cyan,
                 textOn = "Nothin",
-                textX = 63,
+                textX = 69,
                 textY = 36
             })
         end,

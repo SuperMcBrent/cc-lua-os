@@ -315,10 +315,15 @@ local function mainView(ctx)
                     color = ((i - 2) % 2 == 0) and colors.lightGray or colors.white
                 end
 
-                local label = string.format("%03d", i)
                 ctx.libs().draw.drawLine(3, y, 63, 2, color, mon)
-                ctx.libs().draw.drawTitle(3, y, label, colors.black, color, mon)
+
+                if i > 0 then
+                    local label = string.format("%03d", i)
+                    ctx.libs().draw.drawTitle(3, y, label, colors.black, color, mon)
+                end
             end
+
+            ctx.libs().draw.drawTitle(3, 12, string.format("%03d", 69), colors.black, colors.white, mon)
 
             for _, note in ipairs(currentChord) do
                 for _, k in ipairs(keys) do

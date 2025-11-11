@@ -412,6 +412,7 @@ local function mainView(ctx)
                         })
                     end
 
+                    updateKeyVisuals()
                     goto blackWasHit
                 end
             end
@@ -436,26 +437,12 @@ local function mainView(ctx)
                         })
                     end
 
+                    updateKeyVisuals()
                     goto blackWasHit
                 end
             end
 
             ::blackWasHit::
-
-            for _, k in ipairs(keys) do
-                local isInChord = false
-
-                for _, note in ipairs(currentChord) do
-                    if note.pitch == k.pitch then
-                        isInChord = true
-                        break
-                    end
-                end
-
-                ctx.libs().button.update("key_" .. k.pitch, { state = not isInChord })
-            end
-
-            ----------------------
 
             if ctx.libs().button.isWithinBoundingBox(x, y, "songTempoBtn") then
                 local newTempo = SwitchTempo()
@@ -471,10 +458,26 @@ local function mainView(ctx)
                     print("Clicked position button " .. tostring(i))
                     selectedSongPosition = i
                     currentChord = currentSong[selectedSongPosition] or {}
+                    updateKeyVisuals()
                 end
             end
         end
     }
+end
+
+function updateKeyVisuals()
+    for _, k in ipairs(keys) do
+        local isInChord = false
+
+        for _, note in ipairs(currentChord) do
+            if note.pitch == k.pitch then
+                isInChord = true
+                break
+            end
+        end
+
+        ctx.libs().button.update("key_" .. k.pitch, { state = not isInChord })
+    end
 end
 
 function PlayChord(notes)

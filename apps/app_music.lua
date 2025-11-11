@@ -31,6 +31,8 @@ local keys = {
     { pitch = 25, x = 63, black = false, playable = false, note = "" }
 }
 
+local speaker0 = peripheral.wrap("speaker_0")
+
 local WHITE_W, WHITE_H = 3, 6
 local BLACK_W, BLACK_H = 3, 3
 local START_Y = 5
@@ -88,17 +90,19 @@ local function mainView(ctx)
 
             for i = 0, 9 do
                 local color = (i % 2 == 0) and colors.lightGray or colors.white
-                ctx.libs().draw.drawLine(2, 11 + i * 2, 63, 2, color, mon)
+                ctx.libs().draw.drawLine(3, 12 + i * 2, 63, 2, color, mon)
             end
         end,
         touch = function(x, y)
             for _, k in ipairs(keys) do
                 if k.black and ctx.libs().button.isWithinBoundingBox(x, y, "key_" .. k.pitch) and k.playable then
+                    speaker0.playNote("pling", 3, k.pitch)
                     goto blackWasHit
                 end
             end
             for _, k in ipairs(keys) do
                 if not k.black and ctx.libs().button.isWithinBoundingBox(x, y, "key_" .. k.pitch) and k.playable then
+                    speaker0.playNote("pling", 3, k.pitch)
                     goto blackWasHit
                 end
             end

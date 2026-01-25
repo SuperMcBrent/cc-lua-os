@@ -9,9 +9,9 @@ return {
         app_home = { version = "1.0" },
         app_settings = { version = "1.0" },
         app_inventory = { version = "1.0", _enabled = false },
-        app_energyStorage = { version = "1.0" },
-        app_essence = { version = "1.0" },
-        app_music = { version = "1.0" },
+        app_energyStorage = { version = "1.0", _enabled = false },
+        app_essence = { version = "1.0", _enabled = false },
+        app_music = { version = "1.0", _enabled = false },
     },
     main = { version = "1.0" },
 }

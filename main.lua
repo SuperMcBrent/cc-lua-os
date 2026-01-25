@@ -1,5 +1,5 @@
-local DEVICE_NAME = "All The Mods 10"
-local CONTROLLER_SIDE = "monitor_0"
+local DEVICE_NAME = "FTB Revolution"
+local CONTROLLER_SIDE = "left"
 local APPS_DIR = "apps"
 local LIBS_DIR = "libs"
 local TICK_SEC = 0.2

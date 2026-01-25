@@ -20,7 +20,7 @@ local function Empty(mon)
     mon.setBackgroundColor(colors.black); mon.clear(); mon.setCursorPos(1, 1)
 end
 
-local mon = peripheral.wrap("monitor_0") or term
+local mon = peripheral.wrap("left") or term
 mon.setTextScale(0.5)
 local W, H = mon.getSize()
 Empty(mon)

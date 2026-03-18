@@ -180,6 +180,8 @@ if ok then
     Empty(mon)
     shell.run("main")
 else
-    log(""); log("One or more downloads failed.", colors.red); log("Startup halted.", colors.red)
+    log("");
+    log("One or more downloads failed.", colors.red);
+    log("Startup halted.", colors.red)
     sleep(4)
 end

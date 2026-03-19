@@ -1,11 +1,26 @@
+local APPID = "maintenance"
+
 local function mainView(ctx)
+    local view = "view_main"
     return {
         init = function()
-
+            ctx.libs().button.create({
+                app = APPID,
+                view = view,
+                name = "testbutton_1",
+                x = 2,
+                y = 4,
+                w = 11,
+                h = 3,
+                colorOn = colors.cyan,
+                textOn = "Pyrolyse",
+                textX = 3,
+                textY = 5
+            })
         end,
 
         draw = function(mon)
-
+            ctx.libs().button.draw("testbutton_1", mon)
         end,
 
         touch = function(x, y)
@@ -19,7 +34,7 @@ local views = {
 }
 
 return {
-    id = "maintenance",
+    id = APPID,
     name = "Maintenance",
     protocol = "maintenance",
 

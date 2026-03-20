@@ -1,60 +1,68 @@
-local restartBtnId = "settings_restart"
-local manifestBtnId = "settings_delete_manifest"
-local yesBtnId = "confirm_yes"
-local noBtnId = "confirm_no"
-
 local applicationName = "settings"
 local rootViewName = "root"
 local confirmViewName = "confirm"
 
+local rootButtons = {
+    { id = "settings_restart",         name = "Restart",     color = colors.red, gridX = 1, gridY = 1 },
+    { id = "settings_delete_manifest", name = "rm manifest", color = colors.red, gridX = 2, gridY = 1 }
+}
+
+local ROOT_BTN_W = 13
+local ROOT_BTN_H = 5
+local ROOT_H_SPACING = 3
+local ROOT_V_SPACING = 2
+
+local function getRootButtonX(gridX)
+    return 2 + (gridX - 1) * (ROOT_BTN_W + ROOT_H_SPACING)
+end
+
+local function getRootButtonY(gridY)
+    return 4 + (gridY - 1) * (ROOT_BTN_H + ROOT_V_SPACING)
+end
+
 local function mainView(ctx)
     return {
         init = function()
-            ctx.libs().button.create({
-                app = applicationName,
-                view = rootViewName,
-                name = restartBtnId,
-                x = 2,
-                y = 4,
-                w = 13,
-                h = 5,
-                colorOn = colors.red,
-                state = true,
-                textOn = "Restart",
-                textX = 4,
-                textY = 6
-            })
+            for _, btn in ipairs(rootButtons) do
+                local x = getRootButtonX(btn.gridX)
+                local y = getRootButtonY(btn.gridY)
 
-            ctx.libs().button.create({
-                app = applicationName,
-                view = rootViewName,
-                name = manifestBtnId,
-                x = 17,
-                y = 4,
-                w = 13,
-                h = 5,
-                colorOn = colors.red,
-                state = true,
-                textOn = "rm manifest",
-                textX = 18,
-                textY = 6
-            })
+                ctx.libs().button.create({
+                    app = applicationName,
+                    view = rootViewName,
+                    name = btn.id,
+                    x = x,
+                    y = y,
+                    w = ROOT_BTN_W,
+                    h = ROOT_BTN_H,
+                    colorOn = btn.color,
+                    state = true,
+                    textOn = btn.name,
+                    textX = x + 3,
+                    textY = y + 2
+                })
+            end
         end,
 
         draw = function(mon)
-            ctx.libs().button.draw(restartBtnId, mon)
-            ctx.libs().button.draw(manifestBtnId, mon)
+            for _, btn in ipairs(rootButtons) do
+                ctx.libs().button.draw(btn.id, mon)
+            end
         end,
 
         touch = function(x, y)
-            if ctx.libs().button.isWithinBoundingBox(x, y, restartBtnId) then
-                ctx.os.navigate("settings", "confirm")
-            end
+            for _, btn in ipairs(rootButtons) do
+                if ctx.libs().button.isWithinBoundingBox(x, y, btn.id) then
+                    if btn.id == "settings_restart" then
+                        ctx.os.navigate("settings", "confirm")
+                    end
 
-            if ctx.libs().button.isWithinBoundingBox(x, y, manifestBtnId) then
-                if fs.exists("manifest_local") then
-                    fs.delete("manifest_local")
-                    print("manifest deleted")
+                    if btn.id == "settings_delete_manifest" then
+                        if fs.exists("manifest_local") then
+                            fs.delete("manifest_local")
+                            print("manifest deleted")
+                        end
+                    end
                 end
             end
         end
@@ -69,51 +77,42 @@ local function confirmView(ctx)
             local btnNoX = math.floor(W / 2) + 3
             local btnY = math.floor(H / 2) + 2
 
-            ctx.libs().button.create({
-                app = applicationName,
-                view = confirmViewName,
-                name = yesBtnId,
-                x = btnYesX,
-                y = btnY,
-                w = 8,
-                h = 3,
-                colorOn = colors.lime,
-                colorOff = colors.gray,
-                state = true,
-                textOn = "Yes",
-                textX = btnYesX + 1,
-                textY = btnY + 1
-            })
+            local confirmButtons = {
+                { id = "confirm_yes", name = "Yes", colorOn = colors.lime, colorOff = colors.gray, x = btnYesX, y = btnY, w = 8, h = 3 },
+                { id = "confirm_no",  name = "No",  colorOn = colors.red,  colorOff = colors.gray, x = btnNoX,  y = btnY, w = 8, h = 3 }
+            }
 
-            ctx.libs().button.create({
-                app = applicationName,
-                view = confirmViewName,
-                name = noBtnId,
-                x = btnNoX,
-                y = btnY,
-                w = 8,
-                h = 3,
-                colorOn = colors.red,
-                colorOff = colors.gray,
-                state = true,
-                textOn = "No",
-                textX = btnNoX + 1,
-                textY = btnY + 1
-            })
+            for _, btn in ipairs(confirmButtons) do
+                ctx.libs().button.create({
+                    app = applicationName,
+                    view = confirmViewName,
+                    name = btn.id,
+                    x = btn.x,
+                    y = btn.y,
+                    w = btn.w,
+                    h = btn.h,
+                    colorOn = btn.colorOn,
+                    colorOff = btn.colorOff,
+                    state = true,
+                    textOn = btn.name,
+                    textX = btn.x + 1,
+                    textY = btn.y + 1
+                })
+            end
         end,
 
         draw = function(mon)
             local W, H = ctx.os.size()
             ctx.libs().draw.drawTitle(1 + math.floor(W / 2) - 7, math.floor(H / 2) - 2, "Are you sure?", colors.white,
                 colors.gray, mon)
-            ctx.libs().button.draw(yesBtnId, mon)
-            ctx.libs().button.draw(noBtnId, mon)
+            ctx.libs().button.draw("confirm_yes", mon)
+            ctx.libs().button.draw("confirm_no", mon)
         end,
 
         touch = function(x, y)
-            if ctx.libs().button.isWithinBoundingBox(x, y, yesBtnId) then
+            if ctx.libs().button.isWithinBoundingBox(x, y, "confirm_yes") then
                 os.reboot()
-            elseif ctx.libs().button.isWithinBoundingBox(x, y, noBtnId) then
+            elseif ctx.libs().button.isWithinBoundingBox(x, y, "confirm_no") then
                 ctx.os.back()
             end
         end

@@ -52,8 +52,8 @@ local function mainView(ctx)
             end
 
             if ctx.libs().button.isWithinBoundingBox(x, y, manifestBtnId) then
-                if fs.exists("manifest_local.lua") then
-                    fs.delete("manifest_local.lua")
+                if fs.exists("manifest_local") then
+                    fs.delete("manifest_local")
                     print("manifest deleted")
                 end
             end

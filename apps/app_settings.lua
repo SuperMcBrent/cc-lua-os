@@ -32,12 +32,12 @@ local function mainView(ctx)
                 x = 17,
                 y = 4,
                 w = 13,
-                h = 6,
+                h = 5,
                 colorOn = colors.red,
                 state = true,
-                textOn = "Del Manifest",
-                textX = 17,
-                textY = 5
+                textOn = "rm manifest",
+                textX = 18,
+                textY = 6
             })
         end,
 
@@ -54,6 +54,7 @@ local function mainView(ctx)
             if ctx.libs().button.isWithinBoundingBox(x, y, manifestBtnId) then
                 if fs.exists("manifest_local.lua") then
                     fs.delete("manifest_local.lua")
+                    print("manifest deleted")
                 end
             end
         end

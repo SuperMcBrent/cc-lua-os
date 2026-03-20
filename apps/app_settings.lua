@@ -21,8 +21,8 @@ local function mainView(ctx)
                 colorOn = colors.red,
                 state = true,
                 textOn = "Restart",
-                textX = 3,
-                textY = 5
+                textX = 4,
+                textY = 6
             })
 
             ctx.libs().button.create({
@@ -32,7 +32,7 @@ local function mainView(ctx)
                 x = 17,
                 y = 4,
                 w = 13,
-                h = 5,
+                h = 6,
                 colorOn = colors.red,
                 state = true,
                 textOn = "Del Manifest",
@@ -43,6 +43,7 @@ local function mainView(ctx)
 
         draw = function(mon)
             ctx.libs().button.draw(restartBtnId, mon)
+            ctx.libs().button.draw(manifestBtnId, mon)
         end,
 
         touch = function(x, y)

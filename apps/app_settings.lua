@@ -1,31 +1,33 @@
 local applicationName = "settings"
-local rootViewName = "root"
-local confirmViewName = "confirm"
-
-local rootButtons = {
-    { id = "settings_restart",         name = "Restart",     color = colors.red, gridX = 1, gridY = 1 },
-    { id = "settings_delete_manifest", name = "rm manifest", color = colors.red, gridX = 2, gridY = 1 }
-}
-
-local ROOT_BTN_W = 13
-local ROOT_BTN_H = 5
-local ROOT_H_SPACING = 3
-local ROOT_V_SPACING = 2
-
-local function getRootButtonX(gridX)
-    return 2 + (gridX - 1) * (ROOT_BTN_W + ROOT_H_SPACING)
-end
-
-local function getRootButtonY(gridY)
-    return 4 + (gridY - 1) * (ROOT_BTN_H + ROOT_V_SPACING)
-end
 
 local function mainView(ctx)
+    local rootViewName = "root"
+
+    local rootButtons = {
+        { id = "settings_restart",         name = "Restart",     color = colors.red, gridX = 1, gridY = 1 },
+        { id = "settings_delete_manifest", name = "rm manifest", color = colors.red, gridX = 2, gridY = 1 }
+    }
+
+    local ROOT_BTN_W = 13
+    local ROOT_BTN_H = 5
+    local ROOT_H_SPACING = 3
+    local ROOT_V_SPACING = 2
+
+    local function getRootButtonX(gridX)
+        return 2 + (gridX - 1) * (ROOT_BTN_W + ROOT_H_SPACING)
+    end
+
+    local function getRootButtonY(gridY)
+        return 4 + (gridY - 1) * (ROOT_BTN_H + ROOT_V_SPACING)
+    end
+
     return {
         init = function()
             for _, btn in ipairs(rootButtons) do
                 local x = getRootButtonX(btn.gridX)
                 local y = getRootButtonY(btn.gridY)
+                local textX = x + math.floor((ROOT_BTN_W - string.len(btn.name)) / 2)
+                local textY = y + math.floor(ROOT_BTN_H / 2)
 
                 ctx.libs().button.create({
                     app = applicationName,
@@ -38,8 +40,8 @@ local function mainView(ctx)
                     colorOn = btn.color,
                     state = true,
                     textOn = btn.name,
-                    textX = x + 3,
-                    textY = y + 2
+                    textX = textX,
+                    textY = textY
                 })
             end
         end,
@@ -70,18 +72,20 @@ local function mainView(ctx)
 end
 
 local function confirmView(ctx)
+    local confirmViewName = "confirm"
+
+    local W, H = ctx.os.size()
+    local btnYesX = math.floor(W / 2) - 10
+    local btnNoX = math.floor(W / 2) + 3
+    local btnY = math.floor(H / 2) + 2
+
+    local confirmButtons = {
+        { id = "confirm_yes", name = "Yes", colorOn = colors.lime, colorOff = colors.gray, x = btnYesX, y = btnY, w = 8, h = 3 },
+        { id = "confirm_no",  name = "No",  colorOn = colors.red,  colorOff = colors.gray, x = btnNoX,  y = btnY, w = 8, h = 3 }
+    }
+
     return {
         init = function()
-            local W, H = ctx.os.size()
-            local btnYesX = math.floor(W / 2) - 10
-            local btnNoX = math.floor(W / 2) + 3
-            local btnY = math.floor(H / 2) + 2
-
-            local confirmButtons = {
-                { id = "confirm_yes", name = "Yes", colorOn = colors.lime, colorOff = colors.gray, x = btnYesX, y = btnY, w = 8, h = 3 },
-                { id = "confirm_no",  name = "No",  colorOn = colors.red,  colorOff = colors.gray, x = btnNoX,  y = btnY, w = 8, h = 3 }
-            }
-
             for _, btn in ipairs(confirmButtons) do
                 ctx.libs().button.create({
                     app = applicationName,

@@ -1,7 +1,5 @@
 local applicationName = "maintenance"
 
-
-
 local function mainView(ctx)
     local view = "view_main"
 
@@ -42,6 +40,8 @@ local function mainView(ctx)
             for _, btn in ipairs(buttonDefs) do
                 local x = getButtonX(btn.gridX)
                 local y = getButtonY(btn.gridY)
+                local textX = x + math.floor((BTN_W - string.len(btn.name)) / 2)
+                local textY = y + math.floor(BTN_H / 2)
 
                 ctx.libs().button.create({
                     app = applicationName,
@@ -53,8 +53,8 @@ local function mainView(ctx)
                     h = BTN_H,
                     colorOn = btn.color,
                     textOn = btn.name,
-                    textX = x + 4,
-                    textY = y + 3
+                    textX = textX,
+                    textY = textY
                 })
             end
         end,

@@ -2,8 +2,8 @@ local APPID = "maintenance"
 
 local BTN_W = 17
 local BTN_H = 7
-local H_SPACING = 2
-local V_SPACING = 1
+local H_SPACING = 3
+local V_SPACING = 2
 
 local buttonDefs = {
     { id = "testbutton_1",  name = "Pyrolyse",  color = colors.green, gridX = 1, gridY = 1 },
@@ -32,7 +32,6 @@ local function getButtonY(gridY)
     return 4 + (gridY - 1) * (BTN_H + V_SPACING)
 end
 
-
 local function mainView(ctx)
     local view = "view_main"
 
@@ -53,7 +52,7 @@ local function mainView(ctx)
                     colorOn = btn.color,
                     textOn = btn.name,
                     textX = x + 4,
-                    textY = y + 1
+                    textY = y + 3
                 })
             end
         end,

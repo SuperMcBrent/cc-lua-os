@@ -1,4 +1,5 @@
 local restartBtnId = "settings_restart"
+local manifestBtnId = "settings_delete_manifest"
 local yesBtnId = "confirm_yes"
 local noBtnId = "confirm_no"
 
@@ -9,27 +10,34 @@ local confirmViewName = "confirm"
 local function mainView(ctx)
     return {
         init = function()
-            local W, H = ctx.os.size()
-            local btnW, btnH = 13, 3
-            local x = math.floor((W - btnW) / 2)
-            local y = math.floor(H / 2)
-
             ctx.libs().button.create({
                 app = applicationName,
                 view = rootViewName,
                 name = restartBtnId,
-                x = x,
-                y = y,
-                w = btnW,
-                h = btnH,
+                x = 2,
+                y = 4,
+                w = 13,
+                h = 5,
                 colorOn = colors.red,
-                colorOff = colors.gray,
                 state = true,
                 textOn = "Restart",
-                textOff = "",
-                textX = x + 3,
-                textY = y + 1,
-                header = ""
+                textX = 3,
+                textY = 5
+            })
+
+            ctx.libs().button.create({
+                app = applicationName,
+                view = rootViewName,
+                name = manifestBtnId,
+                x = 17,
+                y = 4,
+                w = 13,
+                h = 5,
+                colorOn = colors.red,
+                state = true,
+                textOn = "Del Manifest",
+                textX = 17,
+                textY = 5
             })
         end,
 
@@ -40,6 +48,12 @@ local function mainView(ctx)
         touch = function(x, y)
             if ctx.libs().button.isWithinBoundingBox(x, y, restartBtnId) then
                 ctx.os.navigate("settings", "confirm")
+            end
+
+            if ctx.libs().button.isWithinBoundingBox(x, y, manifestBtnId) then
+                if fs.exists("manifest_local.lua") then
+                    fs.delete("manifest_local.lua")
+                end
             end
         end
     }

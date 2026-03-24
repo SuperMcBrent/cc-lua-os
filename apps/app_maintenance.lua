@@ -62,7 +62,8 @@ local function mainView(ctx)
             for _, btn in ipairs(buttonDefs) do
                 local x = getButtonX(btn.gridX)
                 local y = getButtonY(btn.gridY)
-                local textX = x + math.floor((BTN_W - string.len(btn.name)) / 2)
+                local firstLine = btn.name:match("([^\n]*)")
+                local textX = x + math.floor((BTN_W - string.len(firstLine)) / 2)
                 local textY = y + math.floor(BTN_H / 2)
 
                 ctx.libs().button.create({

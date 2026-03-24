@@ -117,17 +117,10 @@ local function draw(id, mon)
             dependencies.draw.drawTitle(b.x, b.y - 1, b.header, b.textColor, colors.black, mon)
         end
 
-        local lines = {}
+        local i = 0
         for line in string.gmatch(text, "([^\n]+)") do
-            table.insert(lines, line)
-        end
-
-        if #lines == 0 then
-            lines = { text }
-        end
-
-        for i, line in ipairs(lines) do
-            dependencies.draw.drawTitle(b.textX, b.textY + (i - 1), line, b.textColor, color, mon)
+            dependencies.draw.drawTitle(b.textX, b.textY + i, line, b.textColor, color, mon)
+            i = i + 1
         end
     end
 

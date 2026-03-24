@@ -9,22 +9,22 @@ local alarmTimer = 0
 local alarmRed = false
 
 local buttonDefs = {
-    { id = "testbutton_1",  name = "Pyrolyse",  color = colors.green, alarm = true,  gridX = 1, gridY = 1 },
-    { id = "testbutton_2",  name = "Button 2",  color = colors.green, alarm = false, gridX = 2, gridY = 1 },
-    { id = "testbutton_3",  name = "Button 3",  color = colors.green, alarm = false, gridX = 3, gridY = 1 },
-    { id = "testbutton_4",  name = "Button 4",  color = colors.green, alarm = false, gridX = 4, gridY = 1 },
-    { id = "testbutton_5",  name = "Button 5",  color = colors.green, alarm = false, gridX = 1, gridY = 2 },
-    { id = "testbutton_6",  name = "Button 6",  color = colors.green, alarm = false, gridX = 2, gridY = 2 },
-    { id = "testbutton_7",  name = "Button 7",  color = colors.green, alarm = false, gridX = 3, gridY = 2 },
-    { id = "testbutton_8",  name = "Button 8",  color = colors.green, alarm = false, gridX = 4, gridY = 2 },
-    { id = "testbutton_9",  name = "Button 9",  color = colors.green, alarm = false, gridX = 1, gridY = 3 },
-    { id = "testbutton_10", name = "Button 10", color = colors.green, alarm = false, gridX = 2, gridY = 3 },
-    { id = "testbutton_11", name = "Button 11", color = colors.green, alarm = false, gridX = 3, gridY = 3 },
-    { id = "testbutton_12", name = "Button 12", color = colors.green, alarm = false, gridX = 4, gridY = 3 },
-    { id = "testbutton_13", name = "Button 13", color = colors.green, alarm = false, gridX = 1, gridY = 4 },
-    { id = "testbutton_14", name = "Button 14", color = colors.green, alarm = false, gridX = 2, gridY = 4 },
-    { id = "testbutton_15", name = "Button 15", color = colors.green, alarm = false, gridX = 3, gridY = 4 },
-    { id = "testbutton_16", name = "Button 16", color = colors.green, alarm = false, gridX = 4, gridY = 4 }
+    { id = "testbutton_1",  name = " Pyrolyse \nBlink Test", color = colors.green, alarm = true,  gridX = 1, gridY = 1 },
+    { id = "testbutton_2",  name = "Button 2",               color = colors.green, alarm = false, gridX = 2, gridY = 1 },
+    { id = "testbutton_3",  name = "Button 3",               color = colors.green, alarm = false, gridX = 3, gridY = 1 },
+    { id = "testbutton_4",  name = "Button 4",               color = colors.green, alarm = false, gridX = 4, gridY = 1 },
+    { id = "testbutton_5",  name = "Button 5",               color = colors.green, alarm = false, gridX = 1, gridY = 2 },
+    { id = "testbutton_6",  name = "Button 6",               color = colors.green, alarm = false, gridX = 2, gridY = 2 },
+    { id = "testbutton_7",  name = "Button 7",               color = colors.green, alarm = false, gridX = 3, gridY = 2 },
+    { id = "testbutton_8",  name = "Button 8",               color = colors.green, alarm = false, gridX = 4, gridY = 2 },
+    { id = "testbutton_9",  name = "Button 9",               color = colors.green, alarm = false, gridX = 1, gridY = 3 },
+    { id = "testbutton_10", name = "Button 10",              color = colors.green, alarm = false, gridX = 2, gridY = 3 },
+    { id = "testbutton_11", name = "Button 11",              color = colors.green, alarm = false, gridX = 3, gridY = 3 },
+    { id = "testbutton_12", name = "Button 12",              color = colors.green, alarm = false, gridX = 4, gridY = 3 },
+    { id = "testbutton_13", name = "Button 13",              color = colors.green, alarm = false, gridX = 1, gridY = 4 },
+    { id = "testbutton_14", name = "Button 14",              color = colors.green, alarm = false, gridX = 2, gridY = 4 },
+    { id = "testbutton_15", name = "Button 15",              color = colors.green, alarm = false, gridX = 3, gridY = 4 },
+    { id = "testbutton_16", name = "Button 16",              color = colors.green, alarm = false, gridX = 4, gridY = 4 }
 }
 
 local function getButtonX(gridX)
@@ -47,7 +47,7 @@ local function updateAlarmButtons(ctx, dt)
         local targetColor = colors.green
 
         if btn.alarm then
-            targetColor = alarmRed and colors.red or colors.green
+            targetColor = alarmRed and colors.red or colors.orange
         end
 
         ctx.libs().button.update(btn.id, { colorOn = targetColor })

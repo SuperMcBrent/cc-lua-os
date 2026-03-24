@@ -117,11 +117,8 @@ local function draw(id, mon)
             dependencies.draw.drawTitle(b.x, b.y - 1, b.header, b.textColor, colors.black, mon)
         end
 
-        local i = 0
-        for line in string.gmatch(text, "([^\n]+)") do
-            dependencies.draw.drawTitle(b.textX, b.textY + i, line, b.textColor, color, mon)
-            i = i + 1
-        end
+        -- here
+        dependencies.draw.drawTitle(b.textX, b.textY, text, b.textColor, color, mon)
     end
 
     if composites[id] then

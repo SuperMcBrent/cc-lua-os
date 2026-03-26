@@ -106,6 +106,8 @@ return {
     name = "Maintenance",
     protocol = protocol,
 
+    notifications = { "one", "two", "three" },
+
     receive = function(ctx, sender, message)
         if type(message) ~= "table" or not message.channels then return end
 

@@ -1,4 +1,5 @@
-local buttons = {}
+local application_buttons = {}
+local notification_bubbles = {}
 
 local BTN_W, BTN_H = 13, 5
 local PADDING_X, PADDING_Y = 2, 4
@@ -7,7 +8,7 @@ local GAP_X, GAP_Y = 3, 2
 local function mainView(ctx)
     return {
         init = function()
-            buttons = {}
+            application_buttons = {}
             local W, H = ctx.os.size()
             local x, y = PADDING_X, PADDING_Y
 
@@ -15,6 +16,7 @@ local function mainView(ctx)
                 if id ~= "home" then
                     local app = ctx.os.get(id)
                     local label = app.name or id
+                    local notifications = app.notifications or {}
                     local btnId = "home_btn_" .. id
 
                     ctx.libs().button.create({
@@ -31,7 +33,22 @@ local function mainView(ctx)
                         textY = y + 2,
                     })
 
-                    table.insert(buttons, { id = id, btnId = btnId })
+                    ctx.libs().button.create({
+                        name = btnId + "_notification",
+                        app = "home",
+                        view = "page",
+                        x = x + BTN_W - 2,
+                        y = y - 1,
+                        w = 3,
+                        h = 3,
+                        colorOn = colors.red,
+                        textOn = #notifications,
+                        textX = x + BTN_W - 1,
+                        textY = y,
+                    })
+
+                    table.insert(application_buttons, { id = id, btnId = btnId })
+                    table.insert(notification_bubbles, { id = id, btnId = btnId + "_notification" })
 
                     x = x + BTN_W + GAP_X
                     if x + BTN_W > W then
@@ -43,13 +60,16 @@ local function mainView(ctx)
         end,
 
         draw = function(mon)
-            for _, b in ipairs(buttons) do
+            for _, b in ipairs(application_buttons) do
+                ctx.libs().button.draw(b.btnId, mon)
+            end
+            for _, b in ipairs(notification_bubbles) do
                 ctx.libs().button.draw(b.btnId, mon)
             end
         end,
 
         touch = function(x, y)
-            for _, b in ipairs(buttons) do
+            for _, b in ipairs(application_buttons) do
                 if ctx.libs().button.isWithinBoundingBox(x, y, b.btnId) then
                     ctx.os.navigate(b.id)
                     return

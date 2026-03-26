@@ -63,7 +63,12 @@ local function mainView(ctx)
         draw = function(mon)
             -- move to update
             for _, id in ipairs(ctx.os.list()) do
-                ctx.libs().button.update(id .. "_notification", { visible = #(ctx.os.get(id).notifications() or {}) > 0 })
+                local app = ctx.os.get(id)
+                local count = app.notifications and #(app.notifications() or {}) or 0
+
+                ctx.libs().button.update(id .. "_notification", {
+                    visible = count > 0
+                })
             end
             --
             for _, b in ipairs(application_buttons) do

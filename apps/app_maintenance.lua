@@ -1,5 +1,6 @@
 local applicationName = "maintenance"
 local protocol = "maintenance"
+local notifications = { "one", "two", "three" }
 
 local BTN_W = 17
 local BTN_H = 7
@@ -58,6 +59,18 @@ local function updateAlarmButtons(ctx, dt)
     end
 end
 
+local function updateNotifications()
+    for i = #notifications, 1, -1 do
+        table.remove(notifications, i)
+    end
+
+    for _, btn in ipairs(buttonDefs) do
+        if btn.alarm then
+            table.insert(notifications, btn.name)
+        end
+    end
+end
+
 local function mainView(ctx)
     local view = "view_main"
 
@@ -106,7 +119,7 @@ return {
     name = "Maintenance",
     protocol = protocol,
 
-    notifications = { "one", "two", "three" },
+    notifications = notifications,
 
     receive = function(ctx, sender, message)
         if type(message) ~= "table" or not message.channels then return end
@@ -134,6 +147,7 @@ return {
     update = function(ctx, dt)
         ctx.os.transmit("provideBundleSignals", protocol)
         updateAlarmButtons(ctx, dt)
+        updateNotifications()
     end,
 
     draw = function(ctx, mon, viewId)

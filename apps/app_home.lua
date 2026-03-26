@@ -16,7 +16,7 @@ local function mainView(ctx)
                 if id ~= "home" then
                     local app = ctx.os.get(id)
                     local label = app.name or id
-                    local notifications = app.notifications() or {}
+                    local notifications = app.notifications and app.notifications() or {}
                     local btnId = "home_btn_" .. id
 
                     ctx.libs().button.create({
@@ -61,9 +61,11 @@ local function mainView(ctx)
         end,
 
         draw = function(mon)
+            -- move to update
             for _, id in ipairs(ctx.os.list()) do
-                ctx.libs().button.update(id .. "_notification", { visible = #(ctx.os.get(id).notifications or {}) > 0 })
+                ctx.libs().button.update(id .. "_notification", { visible = #(ctx.os.get(id).notifications() or {}) > 0 })
             end
+            --
             for _, b in ipairs(application_buttons) do
                 ctx.libs().button.draw(b.btnId, mon)
             end

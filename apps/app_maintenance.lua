@@ -1,6 +1,5 @@
 local applicationName = "maintenance"
 local protocol = "maintenance"
-local notifications = { "one", "two", "three" }
 
 local BTN_W = 17
 local BTN_H = 7
@@ -108,10 +107,7 @@ return {
     protocol = protocol,
 
     notifications = function()
-        for i = #notifications, 1, -1 do
-            table.remove(notifications, i)
-        end
-
+        local notifications = {}
         for _, btn in ipairs(buttonDefs) do
             if btn.alarm then
                 table.insert(notifications, btn.name)

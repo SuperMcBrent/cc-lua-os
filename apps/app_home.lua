@@ -67,7 +67,8 @@ local function mainView(ctx)
                 local count = app.notifications and #(app.notifications() or {}) or 0
 
                 ctx.libs().button.update("home_btn_" .. id .. "_notification", {
-                    visible = count > 0
+                    visible = count > 0,
+                    textOn = count
                 })
             end
             --

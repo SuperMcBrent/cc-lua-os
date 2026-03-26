@@ -34,7 +34,7 @@ local function mainView(ctx)
                     })
 
                     ctx.libs().button.create({
-                        name = btnId + "_notification",
+                        name = btnId .. "_notification",
                         app = "home",
                         view = "page",
                         x = x + BTN_W - 2,
@@ -45,10 +45,11 @@ local function mainView(ctx)
                         textOn = #notifications,
                         textX = x + BTN_W - 1,
                         textY = y,
+                        visible = #notifications > 0
                     })
 
                     table.insert(application_buttons, { id = id, btnId = btnId })
-                    table.insert(notification_bubbles, { id = id, btnId = btnId + "_notification" })
+                    table.insert(notification_bubbles, { id = id, btnId = btnId .. "_notification" })
 
                     x = x + BTN_W + GAP_X
                     if x + BTN_W > W then
@@ -60,6 +61,9 @@ local function mainView(ctx)
         end,
 
         draw = function(mon)
+            for _, id in ipairs(ctx.os.list()) do
+                ctx.libs().button.update(id .. "_notification", { visible = #(ctx.os.get(id).notifications or {}) > 0 })
+            end
             for _, b in ipairs(application_buttons) do
                 ctx.libs().button.draw(b.btnId, mon)
             end

@@ -16,7 +16,7 @@ local function mainView(ctx)
                 if id ~= "home" then
                     local app = ctx.os.get(id)
                     local label = app.name or id
-                    local notifications = app.notifications or {}
+                    local notifications = app.notifications() or {}
                     local btnId = "home_btn_" .. id
 
                     ctx.libs().button.create({

@@ -10,25 +10,25 @@ local alarmTimer = 0
 local alarmRed = false
 
 local buttonDefs = {
-    { id = "testbutton_1",  name = " Pyrolyse \nBlink Test", color = colors.green, alarm = true,  gridX = 1, gridY = 1, bundle_wire = colors.white },
-    { id = "testbutton_2",  name = "Button 2",               color = colors.green, alarm = false, gridX = 2, gridY = 1, bundle_wire = colors.orange },
-    { id = "testbutton_3",  name = "Button 3",               color = colors.green, alarm = false, gridX = 3, gridY = 1, bundle_wire = colors.magenta },
-    { id = "testbutton_4",  name = "Button 4",               color = colors.green, alarm = false, gridX = 4, gridY = 1, bundle_wire = colors.lightBlue },
+    { id = "testbutton_1",  name = "Pyrolyse\n@ Power",     color = colors.green, alarm = false, gridX = 1, gridY = 1, bundle_wire = colors.white },
+    { id = "testbutton_2",  name = "Cracker\n@ Power",      color = colors.green, alarm = false, gridX = 2, gridY = 1, bundle_wire = colors.orange },
+    { id = "testbutton_3",  name = "Greenhouse\n  @ Power", color = colors.green, alarm = false, gridX = 3, gridY = 1, bundle_wire = colors.magenta },
+    { id = "testbutton_4",  name = "Liquifact\n @ Power",   color = colors.green, alarm = false, gridX = 4, gridY = 1, bundle_wire = colors.lightBlue },
 
-    { id = "testbutton_5",  name = "Button 5",               color = colors.green, alarm = false, gridX = 1, gridY = 2, bundle_wire = colors.yellow },
-    { id = "testbutton_6",  name = "Button 6",               color = colors.green, alarm = false, gridX = 2, gridY = 2, bundle_wire = colors.lime },
-    { id = "testbutton_7",  name = "Button 7",               color = colors.green, alarm = false, gridX = 3, gridY = 2, bundle_wire = colors.pink },
-    { id = "testbutton_8",  name = "Button 8",               color = colors.green, alarm = false, gridX = 4, gridY = 2, bundle_wire = colors.gray },
+    { id = "testbutton_5",  name = "Cleanroom 1",           color = colors.green, alarm = false, gridX = 1, gridY = 2, bundle_wire = colors.yellow },
+    { id = "testbutton_6",  name = "Cleanroom 2",           color = colors.green, alarm = false, gridX = 2, gridY = 2, bundle_wire = colors.lime },
+    { id = "testbutton_7",  name = "Button 7",              color = colors.green, alarm = false, gridX = 3, gridY = 2, bundle_wire = colors.pink },
+    { id = "testbutton_8",  name = "Button 8",              color = colors.green, alarm = false, gridX = 4, gridY = 2, bundle_wire = colors.gray },
 
-    { id = "testbutton_9",  name = "Button 9",               color = colors.green, alarm = false, gridX = 1, gridY = 3, bundle_wire = colors.lightGray },
-    { id = "testbutton_10", name = "Button 10",              color = colors.green, alarm = false, gridX = 2, gridY = 3, bundle_wire = colors.cyan },
-    { id = "testbutton_11", name = "Button 11",              color = colors.green, alarm = false, gridX = 3, gridY = 3, bundle_wire = colors.purple },
-    { id = "testbutton_12", name = "Button 12",              color = colors.green, alarm = false, gridX = 4, gridY = 3, bundle_wire = colors.blue },
+    { id = "testbutton_9",  name = "Button 9",              color = colors.green, alarm = false, gridX = 1, gridY = 3, bundle_wire = colors.lightGray },
+    { id = "testbutton_10", name = "Button 10",             color = colors.green, alarm = false, gridX = 2, gridY = 3, bundle_wire = colors.cyan },
+    { id = "testbutton_11", name = "Button 11",             color = colors.green, alarm = false, gridX = 3, gridY = 3, bundle_wire = colors.purple },
+    { id = "testbutton_12", name = "Button 12",             color = colors.green, alarm = false, gridX = 4, gridY = 3, bundle_wire = colors.blue },
 
-    { id = "testbutton_13", name = "Button 13",              color = colors.green, alarm = false, gridX = 1, gridY = 4, bundle_wire = colors.brown },
-    { id = "testbutton_14", name = "Button 14",              color = colors.green, alarm = false, gridX = 2, gridY = 4, bundle_wire = colors.green },
-    { id = "testbutton_15", name = "Button 15",              color = colors.green, alarm = false, gridX = 3, gridY = 4, bundle_wire = colors.red },
-    { id = "testbutton_16", name = "Button 16",              color = colors.green, alarm = false, gridX = 4, gridY = 4, bundle_wire = colors.black }
+    { id = "testbutton_13", name = "Button 13",             color = colors.green, alarm = false, gridX = 1, gridY = 4, bundle_wire = colors.brown },
+    { id = "testbutton_14", name = "Button 14",             color = colors.green, alarm = false, gridX = 2, gridY = 4, bundle_wire = colors.green },
+    { id = "testbutton_15", name = "Button 15",             color = colors.green, alarm = false, gridX = 3, gridY = 4, bundle_wire = colors.red },
+    { id = "testbutton_16", name = "Button 16",             color = colors.green, alarm = false, gridX = 4, gridY = 4, bundle_wire = colors.black }
 }
 
 local function getButtonX(gridX)

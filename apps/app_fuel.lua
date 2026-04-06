@@ -34,11 +34,16 @@ local function padRight(text, width)
     return text .. string.rep(" ", width - #text)
 end
 
+local function formatNumber(v)
+    return string.format("%.1f", v / 1000)
+end
+
 local function formatDelta(delta)
-    if delta > 0 then
-        return "+" .. tostring(delta)
+    local v = delta / 1000
+    if v > 0 then
+        return "+" .. string.format("%.1f", v)
     end
-    return tostring(delta)
+    return string.format("%.1f", v)
 end
 
 local function drawTable(ctx, mon)
@@ -81,7 +86,7 @@ local function drawTable(ctx, mon)
         local line =
             padRight(secondsAgo, col1w) ..
             padRight(formatDelta(entry.delta), col2w) ..
-            padRight(entry.total, col3w)
+            padRight(formatNumber(entry.total), col3w)
 
         draw.drawTitle(TABLE_X, rowY, line, colors.white, colors.black, mon)
     end
@@ -95,15 +100,6 @@ local function mainView(ctx)
         end,
 
         draw = function(mon)
-            ctx.libs().draw.drawTitle(
-                5,
-                2,
-                "Fuel: " .. tostring(fuel_amount) .. " mB",
-                colors.white,
-                colors.black,
-                mon
-            )
-
             drawTable(ctx, mon)
         end,
 

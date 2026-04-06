@@ -1,6 +1,6 @@
 local super_tank_side = "right"
 local super_tank = peripheral.wrap(super_tank_side)
-
+peripheral.find("modem", rednet.open)
 
 function HandleRequest(sender, message, protocol)
     print("Handling: " .. tostring(message))
@@ -22,10 +22,6 @@ function RequestListener()
     end
 end
 
-parallel.waitForAll(
-    function()
-        while true do
-            RequestListener()
-        end
-    end
-)
+while true do
+    RequestListener()
+end

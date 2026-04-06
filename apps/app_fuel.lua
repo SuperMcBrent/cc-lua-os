@@ -35,7 +35,7 @@ return {
     end,
 
     receive = function(ctx, sender, message)
-        fuel_amount = message[0].amount
+        fuel_amount = (message and message[1] and message[1].amount) or 0
     end,
 
     create = function(ctx)

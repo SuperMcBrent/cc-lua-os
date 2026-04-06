@@ -34,16 +34,25 @@ local function padRight(text, width)
     return text .. string.rep(" ", width - #text)
 end
 
+-- truncate to 3 decimals (no rounding)
+local function trunc3(v)
+    local sign = v < 0 and -1 or 1
+    v = math.abs(v)
+    local truncated = math.floor(v * 1000) / 1000
+    return truncated * sign
+end
+
 local function formatNumber(v)
-    return string.format("%.1f", v / 1000)
+    local t = trunc3(v / 1000)
+    return tostring(t)
 end
 
 local function formatDelta(delta)
-    local v = delta / 1000
-    if v > 0 then
-        return "+" .. string.format("%.1f", v)
+    local t = trunc3(delta / 1000)
+    if t > 0 then
+        return "+" .. tostring(t)
     end
-    return string.format("%.1f", v)
+    return tostring(t)
 end
 
 local function drawTable(ctx, mon)
@@ -53,6 +62,7 @@ local function drawTable(ctx, mon)
     local col2w = 10
     local col3w = 12
 
+    -- header
     draw.drawTitle(
         TABLE_X,
         TABLE_Y,
@@ -65,11 +75,12 @@ local function drawTable(ctx, mon)
     local startRowY = TABLE_Y + 1
     local bottomRowY = startRowY + TABLE_ROWS - 1
 
+    -- clear rows
     for i = 1, TABLE_ROWS do
         draw.drawTitle(
             TABLE_X,
             startRowY + i - 1,
-            padRight("", col1w) .. padRight("", col2w) .. padRight("", col3w),
+            string.rep(" ", col1w + col2w + col3w),
             colors.white,
             colors.black,
             mon
@@ -83,12 +94,21 @@ local function drawTable(ctx, mon)
         local rowY = bottomRowY - visibleCount + i
         local secondsAgo = math.floor(appTime - entry.time)
 
-        local line =
-            padRight(secondsAgo, col1w) ..
-            padRight(formatDelta(entry.delta), col2w) ..
-            padRight(formatNumber(entry.total), col3w)
+        local col1 = padRight(secondsAgo, col1w)
+        local col2 = padRight(formatDelta(entry.delta), col2w)
+        local col3 = padRight(formatNumber(entry.total), col3w)
 
-        draw.drawTitle(TABLE_X, rowY, line, colors.white, colors.black, mon)
+        local colorDelta = colors.white
+        if entry.delta > 0 then
+            colorDelta = colors.green
+        elseif entry.delta < 0 then
+            colorDelta = colors.red
+        end
+
+        -- draw each column separately
+        draw.drawTitle(TABLE_X, rowY, col1, colors.white, colors.black, mon)
+        draw.drawTitle(TABLE_X + col1w, rowY, col2, colorDelta, colors.black, mon)
+        draw.drawTitle(TABLE_X + col1w + col2w, rowY, col3, colors.white, colors.black, mon)
     end
 end
 
@@ -100,6 +120,15 @@ local function mainView(ctx)
         end,
 
         draw = function(mon)
+            ctx.libs().draw.drawTitle(
+                5,
+                2,
+                "Fuel: " .. formatNumber(fuel_amount),
+                colors.white,
+                colors.black,
+                mon
+            )
+
             drawTable(ctx, mon)
         end,
 

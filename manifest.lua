@@ -13,6 +13,7 @@ return {
         app_energyStorage = { version = "1.0", _enabled = false },
         app_essence = { version = "1.0", _enabled = false },
         app_music = { version = "1.0", _enabled = false },
+        app_fuel = { version = "1.0" },
     },
     main = { version = "1.0" },
 }
